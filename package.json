@@ -1,0 +1,16 @@
+{
+  "name": "nl.hdg.test",
+  "version": "1.0.0",
+  "description": "Test app",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "homey-log": "^1.0.5",
+    "homey-rfdriver": "^2.0.15"
+  },
+  "devDependencies": {},
+  "author": "Harrie de Groot",
+  "license": "ISC"
+}

@@ -1,0 +1,102 @@
+{
+  "id": "nl.hdg.test",
+  "version": "0.0.1",
+  "compatibility": ">=1.5.0",
+  "sdk": 2,
+  "name": {
+    "en": "Driver Test"
+  },
+  "description": {
+    "en": "Test app"
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [
+    "homey:manager:speech-output",
+    "homey:wireless:433"
+  ],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "H.T. de Groot",
+    "email": "harriedegroot@gmail.com"
+  },
+  "drivers": [
+    {
+      "id": "novy-intouch",
+      "name": {
+        "en": "Novy Intouch",
+        "nl": "Novy Intouch"
+      },
+      "icon": "",
+      "class": "other",
+      "capabilities": [
+        "button",
+        "channel_down",
+        "channel_up",
+        "dim"
+      ],
+      "images": {
+        "large": "./drivers/novy-intouch/assets/images/large.jpg",
+        "small": "./drivers/novy-intouch/assets/images/small.jpg"
+      },
+      "rf": {
+        "signal": "intouch"
+      },
+      "settings": [],
+      "pair": [
+        {
+          "id": "rf.imitate",
+          "options": {
+            "title": "rf.pair.imitate.title.socket",
+            "body": "rf.pair.imitate.body.socket",
+            "svg": "assets/svg/pair.svg"
+          }
+        },
+        {
+          "id": "rf.test_switch",
+          "options": {
+            "title": "rf.pair.test_switch.title.socket",
+            "body": "rf.pair.test_switch.body.socket",
+            "initWithDeviceData": true
+          },
+          "navigation": {
+            "prev": "rf.imitate",
+            "next": "rf.done"
+          }
+        },
+        {
+          "id": "rf.done"
+        }
+      ]
+    }
+  ],
+  "signals": {
+    "433": {
+      "intouch": {
+        "sof": [
+          336
+        ],
+        "eof": [],
+        "words": [
+          [
+            401,
+            711
+          ],
+          [
+            755,
+            357
+          ]
+        ],
+        "interval": 10000,
+        "sensitivity": 0.5,
+        "repetitions": 20,
+        "minimalLength": 18,
+        "maximalLength": 18
+      }
+    }
+  }
+}

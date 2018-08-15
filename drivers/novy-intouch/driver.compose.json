@@ -1,0 +1,48 @@
+{
+  "id": "novy-intouch",
+  "name": {
+    "en": "Novy Intouch",
+    "nl": "Novy Intouch"
+  },
+  "icon": "",
+  "class": "other",
+  "capabilities": [
+    "button",
+    "channel_down",
+    "channel_up",
+    "dim"
+  ],
+  "images": {
+    "large": "./drivers/novy-intouch/assets/images/large.jpg",
+    "small": "./drivers/novy-intouch/assets/images/small.jpg"
+  },
+  "rf": {
+    "signal": "intouch"
+  },
+  "settings": [],
+  "pair": [
+    {
+      "id": "rf.imitate",
+      "options": {
+        "title": "rf.pair.imitate.title.socket",
+        "body": "rf.pair.imitate.body.socket",
+        "svg": "assets/svg/pair.svg"
+      }
+    },
+    {
+      "id": "rf.test_switch",
+      "options": {
+        "title": "rf.pair.test_switch.title.socket",
+        "body": "rf.pair.test_switch.body.socket",
+        "initWithDeviceData": true
+      },
+      "navigation": {
+        "prev": "rf.imitate",
+        "next": "rf.done"
+      }
+    },
+    {
+      "id": "rf.done"
+    }
+  ]
+}
