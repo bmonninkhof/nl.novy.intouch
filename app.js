@@ -7,11 +7,7 @@ const Homey = require('homey');
 class MyApp extends Homey.App {
 	
 	onInit() {
-        this.log('MyApp is running...');
-
-        //Homey.ManagerSpeechOutput.say('Hello world!')
-        //    .then(this.log)
-        //    .catch(this.error);
+        this.log('Novy InTouch app is running...');
 	}
 	
 }

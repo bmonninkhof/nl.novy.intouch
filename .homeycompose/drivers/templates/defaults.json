@@ -1,0 +1,19 @@
+{
+  "class": "other",
+  "images": {
+    "large": "{{driverPath}}/assets/images/large.jpg",
+    "small": "{{driverPath}}/assets/images/small.jpg"
+  },
+  "icon": "{{driverPath}}/assets/icon.svg",
+  "rf": {
+    "logLevel": "debug",
+    "debounceTimeout": 500,
+    "minTxInterval": 1000,
+    "dropPendingPayload": true,
+    "signal": "intouch"
+  },
+  "$_devices": [
+    "novy-damper",
+    "novy-remote"
+  ]
+}

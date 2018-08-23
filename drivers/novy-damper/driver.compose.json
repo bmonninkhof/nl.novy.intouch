@@ -1,125 +1,14 @@
 {
-  "id": "nl.hdg.test",
-  "version": "0.0.1",
-  "compatibility": ">=1.5.0",
-  "sdk": 2,
+  "id": "novy-damper",
+  "class":  "light",
   "name": {
-    "en": "Novy Intouch Test"
+    "en": "Novy Intouch damper",
+    "nl": "Novy Intouch afzuiging"
   },
-  "description": {
-    "en": "Novy Intouch Test"
-  },
-  "category": [
-    "appliances"
+  "capabilities": [
+    "onoff"
   ],
-  "permissions": [
-    "homey:wireless:433"
-  ],
-  "images": {
-    "large": "/assets/images/large.png",
-    "small": "/assets/images/small.png"
-  },
-  "author": {
-    "name": "H.T. de Groot",
-    "email": "harriedegroot@gmail.com"
-  },
-  "flow": {
-    "triggers": [
-      {
-        "id": "novy-damper:received",
-        "title": {
-          "en": "Action received",
-          "nl": "Actie ontvangen"
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=novy-damper"
-          },
-          {
-            "name": "damper",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "increase",
-                "label": {
-                  "en": "Speed increased",
-                  "nl": "Snelheid verhoogd"
-                }
-              },
-              {
-                "id": "decrease",
-                "label": {
-                  "en": "Speed decreased",
-                  "nl": "Snelheid verlaagd"
-                }
-              },
-              {
-                "id": "speed_0",
-                "label": {
-                  "en": "Damper off",
-                  "nl": "Afzuiging uit"
-                }
-              },
-              {
-                "id": "speed_1",
-                "label": {
-                  "en": "Speed 1",
-                  "nl": "Snelheid 1"
-                }
-              },
-              {
-                "id": "speed_2",
-                "label": {
-                  "en": "Speed 2",
-                  "nl": "Snelheid 2"
-                }
-              },
-              {
-                "id": "speed_3",
-                "label": {
-                  "en": "Speed 3",
-                  "nl": "Snelheid 3"
-                }
-              },
-              {
-                "id": "speed_4",
-                "label": {
-                  "en": "Max speed",
-                  "nl": "Snelheid maximaal"
-                }
-              }
-            ]
-          },
-          {
-            "name": "light",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "on",
-                "label": {
-                  "en": "Light on",
-                  "nl": "Lamp aan"
-                }
-              },
-              {
-                "id": "off",
-                "label": {
-                  "en": "Light off",
-                  "nl": "Lamp uit"
-                }
-              }
-            ]
-          },
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=novy-damper"
-          }
-        ]
-      }
-    ],
+  "$flow": {
     "actions": [
       {
         "id": "novy-damper:send",
@@ -128,11 +17,6 @@
           "nl": "Stuur commando naar de afzuiging"
         },
         "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=novy-damper"
-          },
           {
             "name": "damper",
             "type": "dropdown",
@@ -215,80 +99,106 @@
           }
         ]
       }
+    ],
+    "triggers": [
+      {
+        "id": "novy-damper:received",
+        "title": {
+          "en": "Action received",
+          "nl": "Actie ontvangen"
+        },
+        "args": [
+          {
+            "name": "damper",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "increase",
+                "label": {
+                  "en": "Speed increased",
+                  "nl": "Snelheid verhoogd"
+                }
+              },
+              {
+                "id": "decrease",
+                "label": {
+                  "en": "Speed decreased",
+                  "nl": "Snelheid verlaagd"
+                }
+              },
+              {
+                "id": "speed_0",
+                "label": {
+                  "en": "Damper off",
+                  "nl": "Afzuiging uit"
+                }
+              },
+              {
+                "id": "speed_1",
+                "label": {
+                  "en": "Speed 1",
+                  "nl": "Snelheid 1"
+                }
+              },
+              {
+                "id": "speed_2",
+                "label": {
+                  "en": "Speed 2",
+                  "nl": "Snelheid 2"
+                }
+              },
+              {
+                "id": "speed_3",
+                "label": {
+                  "en": "Speed 3",
+                  "nl": "Snelheid 3"
+                }
+              },
+              {
+                "id": "speed_4",
+                "label": {
+                  "en": "Max speed",
+                  "nl": "Snelheid maximaal"
+                }
+              }
+            ]
+          },
+          {
+            "name": "light",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "Light on",
+                  "nl": "Lamp aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Light off",
+                  "nl": "Lamp uit"
+                }
+              }
+            ]
+          },
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=novy-damper"
+          }
+        ]
+      }
     ]
   },
-  "drivers": [
-    {
-      "class": "light",
-      "images": {
-        "large": "/drivers/novy-damper/assets/images/large.jpg",
-        "small": "/drivers/novy-damper/assets/images/small.jpg"
-      },
-      "icon": "/drivers/novy-damper/assets/icon.svg",
-      "rf": {
-        "logLevel": "debug",
-        "debounceTimeout": 500,
-        "minTxInterval": 1000,
-        "dropPendingPayload": true,
-        "signal": "intouch"
-      },
-      "capabilities": [
-        "onoff"
-      ],
-      "pair": [
-        {
-          "id": "rf.imitate",
-          "options": {
-            "title": "rf.pair.imitate.title.remote",
-            "body": "rf.pair.imitate.body.remote"
-          },
-          "navigation": {
-            "next": "rf.test"
-          }
-        },
-        {
-          "id": "rf.test",
-          "navigation": {
-            "prev": "rf.imitate",
-            "next": "rf.done"
-          }
-        },
-        {
-          "id": "rf.done",
-          "options": {
-            "title": "Custom title test"
-          }
-        }
-      ],
-      "id": "novy-damper",
-      "name": {
-        "en": "Novy Intouch damper",
-        "nl": "Novy Intouch afzuiging"
-      }
+  "$pairOptions": {
+    "rf.done": {
+      "title": "Custom title test"
     }
-  ],
-  "signals": {
-    "433": {
-      "intouch": {
-        "sof": [
-          356
-        ],
-        "words": [
-          [
-            404,
-            711
-          ],
-          [
-            759,
-            356
-          ]
-        ],
-        "interval": 10000,
-        "sensitivity": 0.5,
-        "repetitions": 20,
-        "minimalLength": 12,
-        "maximalLength": 18
-      }
-    }
-  }
+  },
+  "$extends": [
+    "defaults",
+    "rf.remote"
+  ]
 }

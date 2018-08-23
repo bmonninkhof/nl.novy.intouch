@@ -1,0 +1,66 @@
+{
+  "id": "novy-remote",
+  "name": {
+    "en": "Novy Intouch remote",
+    "nl": "Novy Intouch remote"
+  },
+  "settings": [],
+  "$flow": {
+    "triggers": [
+      {
+        "id": "novy-remote:received",
+        "title": {
+          "en": "Button is pressed",
+          "nl": "Knop is ingedrukt"
+        },
+        "args": [
+          {
+            "name": "button",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "light",
+                "label": {
+                  "en": "Light",
+                  "nl": "Lamp"
+                }
+              },
+              {
+                "id": "plus",
+                "label": {
+                  "en": "Increase damper",
+                  "nl": "Afzuiging harder"
+                }
+              },
+              {
+                "id": "min",
+                "label": {
+                  "en": "Decrease damper",
+                  "nl": "Afzuiging zachter"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              },
+              {
+                "id": "novy",
+                "label": {
+                  "en": "Novy",
+                  "nl": "Novy"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "$extends": [
+    "defaults",
+    "rf.remote"
+  ]
+}
