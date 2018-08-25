@@ -229,8 +229,9 @@
       "icon": "/drivers/novy-damper/assets/icon.svg",
       "rf": {
         "logLevel": "debug",
-        "debounceTimeout": 500,
-        "minTxInterval": 1000,
+        "debounceTime": 500,
+        "minTxInterval": 250,
+        "syncOnOffOnDim": false,
         "dropPendingPayload": true,
         "signal": "intouch"
       },

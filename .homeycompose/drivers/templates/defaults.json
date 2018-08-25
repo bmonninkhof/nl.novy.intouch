@@ -7,9 +7,9 @@
   "icon": "{{driverPath}}/assets/icon.svg",
   "rf": {
     "logLevel": "debug",
-    "debounceTime": 500,      // the minimum time between signal repetitions to trigger a press event. Defaults to 500ms
-    "minTxInterval": 250,     // the minimum amount of time Homey waits between sending signals from Homey. Defaults to 0ms
-    "syncOnOffOnDim": false,  // if onoff should be set to true when a dim value is send. Defaults to true
+    "debounceTime": 500,     
+    "minTxInterval": 250,  
+    "syncOnOffOnDim": false,
     "dropPendingPayload": true,
     "signal": "intouch"
   },
