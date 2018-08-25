@@ -42,6 +42,20 @@
             "type": "dropdown",
             "values": [
               {
+                "id": "light_on",
+                "label": {
+                  "en": "Light on",
+                  "nl": "Lamp aan"
+                }
+              },
+              {
+                "id": "light_off",
+                "label": {
+                  "en": "Light off",
+                  "nl": "Lamp uit"
+                }
+              },
+              {
                 "id": "increase",
                 "label": {
                   "en": "Speed increased",
@@ -93,26 +107,6 @@
             ]
           },
           {
-            "name": "light",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "on",
-                "label": {
-                  "en": "Light on",
-                  "nl": "Lamp aan"
-                }
-              },
-              {
-                "id": "off",
-                "label": {
-                  "en": "Light off",
-                  "nl": "Lamp uit"
-                }
-              }
-            ]
-          },
-          {
             "name": "device",
             "type": "device",
             "filter": "driver_id=novy-damper"
@@ -137,6 +131,34 @@
             "name": "damper",
             "type": "dropdown",
             "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "Turn on",
+                  "nl": "Zet aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Turn off",
+                  "nl": "Zet uit"
+                }
+              },
+              {
+                "id": "light_on",
+                "label": {
+                  "en": "Turn light on",
+                  "nl": "Zet lamp aan"
+                }
+              },
+              {
+                "id": "light_off",
+                "label": {
+                  "en": "Turn light off",
+                  "nl": "Zet lamp uit"
+                }
+              },
               {
                 "id": "increase",
                 "label": {
@@ -184,26 +206,6 @@
                 "label": {
                   "en": "Max speed",
                   "nl": "Snelheid maximaal"
-                }
-              }
-            ]
-          },
-          {
-            "name": "light",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "on",
-                "label": {
-                  "en": "Turn light on",
-                  "nl": "Zet lamp aan"
-                }
-              },
-              {
-                "id": "off",
-                "label": {
-                  "en": "Turn light off",
-                  "nl": "Zet lamp uit"
                 }
               }
             ]
