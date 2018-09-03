@@ -1,0 +1,9 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Light",
+    "nl": "Lamp"
+  },
+  "getable": true,
+  "setable": true
+}

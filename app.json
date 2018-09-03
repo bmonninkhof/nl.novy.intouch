@@ -1,13 +1,15 @@
 {
-  "id": "nl.hdg.test",
-  "version": "0.0.1",
+  "id": "nl.novy.intouch",
+  "version": "2.0.0",
   "compatibility": ">=1.5.0",
   "sdk": 2,
   "name": {
-    "en": "Novy Intouch Test"
+    "en": "Novy Intouch v2",
+    "nl": "Novy Intouch v2"
   },
   "description": {
-    "en": "Novy Intouch Test"
+    "en": "Control your Novy Intouch hood",
+    "nl": "Bedien je Novy Intouch afzuigkap"
   },
   "category": [
     "appliances"
@@ -20,27 +22,62 @@
     "small": "/assets/images/small.png"
   },
   "author": {
-    "name": "H.T. de Groot",
+    "name": "Harrie de Groot",
     "email": "harriedegroot@gmail.com"
   },
   "flow": {
     "triggers": [
       {
-        "id": "novy-damper:received",
+        "id": "novy-hood:received",
         "title": {
-          "en": "Action received",
-          "nl": "Actie ontvangen"
+          "en": "Command received",
+          "nl": "Commando ontvangen"
         },
         "args": [
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=novy-damper"
+            "filter": "driver_id=novy-hood"
           },
           {
-            "name": "damper",
+            "name": "command",
             "type": "dropdown",
             "values": [
+              {
+                "id": "on",
+                "label": {
+                  "en": "Turned on",
+                  "nl": "Aangezet"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Turned off",
+                  "nl": "Uitgezet"
+                }
+              },
+              {
+                "id": "off_run_out",
+                "label": {
+                  "en": "Turned off with run out mode",
+                  "nl": "Uitgezet met naloopstand"
+                }
+              },
+              {
+                "id": "toggle_onoff",
+                "label": {
+                  "en": "Toggled between on/off",
+                  "nl": "Gewisseld tussen aan/uit"
+                }
+              },
+              {
+                "id": "toggle_onoff_run_out",
+                "label": {
+                  "en": "Toggled between on/off with run-out mode",
+                  "nl": "Gewisseld tussen aan/uit met naloopstand"
+                }
+              },
               {
                 "id": "light_on",
                 "label": {
@@ -53,6 +90,13 @@
                 "label": {
                   "en": "Light off",
                   "nl": "Lamp uit"
+                }
+              },
+              {
+                "id": "toggle_light",
+                "label": {
+                  "en": "Toggled light on/off",
+                  "nl": "Gewisseld tussen lamp aan/uit"
                 }
               },
               {
@@ -72,63 +116,58 @@
               {
                 "id": "speed_0",
                 "label": {
-                  "en": "Damper off",
+                  "en": "Hood off",
                   "nl": "Afzuiging uit"
                 }
               },
               {
                 "id": "speed_1",
                 "label": {
-                  "en": "Speed 1",
-                  "nl": "Snelheid 1"
+                  "en": "Hood level 1",
+                  "nl": "Afzuiging niveau 1"
                 }
               },
               {
                 "id": "speed_2",
                 "label": {
-                  "en": "Speed 2",
-                  "nl": "Snelheid 2"
+                  "en": "Hood level 2",
+                  "nl": "Afzuiging niveau 2"
                 }
               },
               {
                 "id": "speed_3",
                 "label": {
-                  "en": "Speed 3",
-                  "nl": "Snelheid 3"
+                  "en": "Hood level 3",
+                  "nl": "Afzuiging niveau 3"
                 }
               },
               {
                 "id": "speed_4",
                 "label": {
-                  "en": "Max speed",
-                  "nl": "Snelheid maximaal"
+                  "en": "Hood POWER level (max)",
+                  "nl": "Afzuiging POWER niveau (max)"
                 }
               }
             ]
-          },
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=novy-damper"
           }
         ]
       }
     ],
     "actions": [
       {
-        "id": "novy-damper:send",
+        "id": "novy-hood:send",
         "title": {
-          "en": "Send command to the damper",
+          "en": "Send command to the hood",
           "nl": "Stuur commando naar de afzuiging"
         },
         "args": [
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=novy-damper"
+            "filter": "driver_id=novy-hood"
           },
           {
-            "name": "damper",
+            "name": "command",
             "type": "dropdown",
             "values": [
               {
@@ -146,6 +185,27 @@
                 }
               },
               {
+                "id": "off_run_out",
+                "label": {
+                  "en": "Turn off with run out mode",
+                  "nl": "Zet uit met naloopstand"
+                }
+              },
+              {
+                "id": "toggle_onoff",
+                "label": {
+                  "en": "Toggle on/off",
+                  "nl": "Wissel tussen aan/uit"
+                }
+              },
+              {
+                "id": "toggle_onoff_run_out",
+                "label": {
+                  "en": "Toggle on/off with run-out mode",
+                  "nl": "Wissel tussen aan/uit met naloopstand"
+                }
+              },
+              {
                 "id": "light_on",
                 "label": {
                   "en": "Turn light on",
@@ -157,6 +217,13 @@
                 "label": {
                   "en": "Turn light off",
                   "nl": "Zet lamp uit"
+                }
+              },
+              {
+                "id": "toggle_light",
+                "label": {
+                  "en": "Toggle light on/off",
+                  "nl": "Wissel tussen lamp aan/uit"
                 }
               },
               {
@@ -176,44 +243,44 @@
               {
                 "id": "speed_0",
                 "label": {
-                  "en": "Damper off",
+                  "en": "Hood off",
                   "nl": "Afzuiging uit"
                 }
               },
               {
                 "id": "speed_1",
                 "label": {
-                  "en": "Speed 1",
-                  "nl": "Snelheid 1"
+                  "en": "Hood level 1",
+                  "nl": "Afzuiging niveau 1"
                 }
               },
               {
                 "id": "speed_2",
                 "label": {
-                  "en": "Speed 2",
-                  "nl": "Snelheid 2"
+                  "en": "Hood level 2",
+                  "nl": "Afzuiging niveau 2"
                 }
               },
               {
                 "id": "speed_3",
                 "label": {
-                  "en": "Speed 3",
-                  "nl": "Snelheid 3"
+                  "en": "Hood level 3",
+                  "nl": "Afzuiging niveau 3"
                 }
               },
               {
                 "id": "speed_4",
                 "label": {
-                  "en": "Max speed",
-                  "nl": "Snelheid maximaal"
+                  "en": "Hood POWER level (max)",
+                  "nl": "Afzuiging POWER niveau (max)"
                 }
+              },
+              {
+                "name": "device",
+                "type": "device",
+                "filter": "driver_id=novy-hood"
               }
             ]
-          },
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=novy-damper"
           }
         ]
       }
@@ -223,20 +290,22 @@
     {
       "class": "light",
       "images": {
-        "large": "/drivers/novy-damper/assets/images/large.jpg",
-        "small": "/drivers/novy-damper/assets/images/small.jpg"
+        "large": "/drivers/novy-hood/assets/images/large.jpg",
+        "small": "/drivers/novy-hood/assets/images/small.jpg"
       },
-      "icon": "/drivers/novy-damper/assets/icon.svg",
+      "icon": "/drivers/novy-hood/assets/icon.svg",
       "rf": {
-        "logLevel": "debug",
-        "debounceTime": 500,
-        "minTxInterval": 250,
+        "logLevel": "silly",
+        "debounceTime": 250,
+        "minTxInterval": 1000,
         "syncOnOffOnDim": false,
         "dropPendingPayload": true,
         "signal": "intouch"
       },
       "capabilities": [
-        "onoff"
+        "onoff",
+        "light",
+        "speed"
       ],
       "pair": [
         {
@@ -263,13 +332,220 @@
           }
         }
       ],
-      "id": "novy-damper",
+      "id": "novy-hood",
       "name": {
-        "en": "Novy Intouch damper",
+        "en": "Novy Intouch hood",
         "nl": "Novy Intouch afzuiging"
-      }
+      },
+      "capabilitiesOptions": {
+        "onoff": {
+          "setOnDim": false,
+          "greyout": false
+        },
+        "light": {
+          "setOnDim": false,
+          "greyout": false
+        }
+      },
+      "mobile": {
+        "components": [
+          {
+            "id": "icon",
+            "capabilities": [
+              "onoff",
+              "light",
+              "speed"
+            ]
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ]
+          },
+          {
+            "id": "sensor",
+            "capabilities": [
+              "speed"
+            ],
+            "options": {
+              "icons": {
+                "speed": "assets/icon.svg"
+              }
+            }
+          },
+          {
+            "id": "slider",
+            "capabilities": [
+              "speed"
+            ],
+            "options": {
+              "showTitle": false
+            }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "light"
+            ]
+          }
+        ]
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "onoff_action",
+              "type": "radio",
+              "label": {
+                "en": "On/off action",
+                "nl": "Aan/uit actie"
+              },
+              "hint": {
+                "en": "What action should be executed when pressing the on/off button?",
+                "nl": "Wat moet er gebeuren als de aan/uit knop wordt ingedrukt?"
+              },
+              "value": "device",
+              "values": [
+                {
+                  "id": "device",
+                  "label": {
+                    "en": "Hood & Lights",
+                    "nl": "Afzuiging & Lampen"
+                  }
+                },
+                {
+                  "id": "light",
+                  "label": {
+                    "en": "Lights only",
+                    "nl": "Alleen lampen"
+                  }
+                },
+                {
+                  "id": "hood",
+                  "label": {
+                    "en": "Hood only",
+                    "nl": "Alleen afzuiging"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "run_out",
+              "type": "checkbox",
+              "label": {
+                "en": "Turn off with run-out mode?",
+                "nl": "Uitschakelen met naloopstand?"
+              },
+              "hint": {
+                "en": "When enabled the device will delay shut down for 10 min.",
+                "nl": "Met naloopstand zal het apparaat het uitschakelen 10 min uitstellen."
+              },
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Current state",
+            "nl": "Huidige status"
+          },
+          "children": [
+            {
+              "id": "light",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "The lights are currently on?",
+                "nl": "De lampen staan na aan?"
+              }
+            },
+            {
+              "id": "speed_level",
+              "type": "dropdown",
+              "value": "speed_0",
+              "label": {
+                "en": "Current hood speed",
+                "nl": "Huidige snelheid van de afzuiging"
+              },
+              "values": [
+                {
+                  "id": "speed_0",
+                  "label": {
+                    "en": "Off",
+                    "nl": "Uit"
+                  }
+                },
+                {
+                  "id": "speed_1",
+                  "label": {
+                    "en": "Level 1",
+                    "nl": "Niveau 1"
+                  }
+                },
+                {
+                  "id": "speed_2",
+                  "label": {
+                    "en": "Level 2",
+                    "nl": "Niveau 2"
+                  }
+                },
+                {
+                  "id": "speed_3",
+                  "label": {
+                    "en": "Level 3",
+                    "nl": "Niveau 3"
+                  }
+                },
+                {
+                  "id": "speed_4",
+                  "label": {
+                    "en": "POWER level (max)",
+                    "nl": "POWER niveau (max)"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
+  "capabilities": {
+    "light": {
+      "type": "boolean",
+      "title": {
+        "en": "Light",
+        "nl": "Lamp"
+      },
+      "getable": true,
+      "setable": true
+    },
+    "speed": {
+      "type": "number",
+      "uiComponent": "slider",
+      "title": {
+        "en": "Speed",
+        "nl": "Snelheid"
+      },
+      "getable": true,
+      "setable": true,
+      "units": {
+        "en": "",
+        "nl": ""
+      },
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "decimals": 1,
+      "chartType": "stepLine"
+    }
+  },
   "signals": {
     "433": {
       "intouch": {
