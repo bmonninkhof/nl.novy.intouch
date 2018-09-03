@@ -109,7 +109,7 @@
               {
                 "id": "decrease",
                 "label": {
-                  "en": "Speed decreased",
+                  "en": "Speed reduced",
                   "nl": "Snelheid verlaagd"
                 }
               },
@@ -147,6 +147,11 @@
                   "en": "Hood POWER level (max)",
                   "nl": "Afzuiging POWER niveau (max)"
                 }
+              },
+              {
+                "name": "device",
+                "type": "device",
+                "filter": "driver_id=novy-hood"
               }
             ]
           }
@@ -236,7 +241,7 @@
               {
                 "id": "decrease",
                 "label": {
-                  "en": "Decrease speed",
+                  "en": "Reduce speed",
                   "nl": "Snelheid verlagen"
                 }
               },
@@ -295,48 +300,23 @@
       },
       "icon": "/drivers/novy-hood/assets/icon.svg",
       "rf": {
-        "logLevel": "silly",
+        "logLevel": "debug",
         "debounceTime": 250,
         "minTxInterval": 1000,
         "syncOnOffOnDim": false,
         "dropPendingPayload": true,
         "signal": "intouch"
       },
-      "capabilities": [
-        "onoff",
-        "light",
-        "speed"
-      ],
-      "pair": [
-        {
-          "id": "rf.imitate",
-          "options": {
-            "title": "rf.pair.imitate.title.remote",
-            "body": "rf.pair.imitate.body.remote"
-          },
-          "navigation": {
-            "next": "rf.test"
-          }
-        },
-        {
-          "id": "rf.test",
-          "navigation": {
-            "prev": "rf.imitate",
-            "next": "rf.done"
-          }
-        },
-        {
-          "id": "rf.done",
-          "options": {
-            "title": "Custom title test"
-          }
-        }
-      ],
       "id": "novy-hood",
       "name": {
         "en": "Novy Intouch hood",
         "nl": "Novy Intouch afzuiging"
       },
+      "capabilities": [
+        "onoff",
+        "light",
+        "speed"
+      ],
       "capabilitiesOptions": {
         "onoff": {
           "setOnDim": false,
@@ -395,7 +375,8 @@
         {
           "type": "group",
           "label": {
-            "en": "General settings"
+            "en": "General settings",
+            "nl": "Algemene instellingen"
           },
           "children": [
             {
@@ -462,7 +443,7 @@
               "value": false,
               "label": {
                 "en": "The lights are currently on?",
-                "nl": "De lampen staan na aan?"
+                "nl": "De lampen staan nu aan?"
               }
             },
             {
@@ -512,6 +493,21 @@
               ]
             }
           ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "rf.imitate",
+          "options": {
+            "title": "rf.pair.imitate.title.remote",
+            "body": "rf.pair.imitate.body.remote"
+          },
+          "navigation": {
+            "next": "rf.done"
+          }
+        },
+        {
+          "id": "rf.done"
         }
       ]
     }

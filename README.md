@@ -3,7 +3,7 @@
 With this app you can manage your Novy Intouch devices via Homey.
 
 The driver is written for SDK 2 and contains most of the device features.  
-This app is build from scratch with some ideas, images & texts borrowed from [this app][v1-link].
+This app is build from scratch, with some content borrowed from [this app][v1-link].
 
 ### Installation
 After installing the app on your Homey, add your Novy Intouch system by pairing the device.  
@@ -70,6 +70,10 @@ The internal `state` is ***NOT** updated* when:
 - Setting to override `power` timeout (<6 minutes)
 - Handle `light` dimming (continues press)
 - Create seperate device for the Intouch Remote
+
+### Known bugs
+
+- Device state is not updated when changing settings
 
 ### Change log
 

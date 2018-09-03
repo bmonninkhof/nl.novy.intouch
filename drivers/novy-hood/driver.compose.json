@@ -124,7 +124,7 @@
           "value": false,
           "label": {
             "en": "The lights are currently on?",
-            "nl": "De lampen staan na aan?"
+            "nl": "De lampen staan nu aan?"
           }
         },
         {
@@ -255,7 +255,7 @@
               {
                 "id": "decrease",
                 "label": {
-                  "en": "Speed decreased",
+                  "en": "Speed reduced",
                   "nl": "Snelheid verlaagd"
                 }
               },
@@ -293,6 +293,11 @@
                   "en": "Hood POWER level (max)",
                   "nl": "Afzuiging POWER niveau (max)"
                 }
+              },
+              {
+                "name": "device",
+                "type": "device",
+                "filter": "driver_id=novy-hood"
               }
             ]
           }
@@ -377,7 +382,7 @@
               {
                 "id": "decrease",
                 "label": {
-                  "en": "Decrease speed",
+                  "en": "Reduce speed",
                   "nl": "Snelheid verlagen"
                 }
               },
@@ -427,13 +432,24 @@
       }
     ]
   },
-  "$pairOptions": {
-    "rf.done": {
-      "title": "Custom title test"
+  "pair": [
+    {
+      "$template": "rf.imitate",
+      "id": "rf.imitate",
+      "options": {
+        "title": "rf.pair.imitate.title.remote",
+        "body": "rf.pair.imitate.body.remote"
+      },
+      "navigation": {
+        "next": "rf.done"
+      }
+    },
+    {
+      "$template": "rf.done",
+      "id": "rf.done"
     }
-  },
+  ],
   "$extends": [
-    "defaults",
-    "rf.remote"
+    "defaults"
   ]
 }

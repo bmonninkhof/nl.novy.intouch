@@ -1,6 +1,6 @@
 'use strict';
 
-require('inspector').open(9229, '0.0.0.0', false);
+//require('inspector').open(9229, '0.0.0.0', false);
 
 const Homey = require('homey');
 
