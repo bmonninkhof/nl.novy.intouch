@@ -9,6 +9,8 @@ This app is build from scratch, with some content borrowed from [this app][v1-li
 After installing the app on your Homey, add your Novy Intouch system by pairing the device.  
 Just follow the on-screen instructions...
 
+If the device is added: **check the device settings** to ensure the `internal state` is correct (*see below*).
+
 ### Mobile
 
 A mobile card with `on/off` button, `dimming slider` & `light` switch is available to control the device.
