@@ -14,6 +14,22 @@
   "category": [
     "appliances"
   ],
+  "tags": {
+    "en": [
+      "Novy",
+      "InTouch",
+      "hood",
+      "light",
+      "damper"
+    ],
+    "nl": [
+      "Novy",
+      "InTouch",
+      "afzuiging",
+      "lamp",
+      "afzuigkap"
+    ]
+  },
   "permissions": [
     "homey:wireless:433"
   ],
@@ -24,6 +40,16 @@
   "author": {
     "name": "Harrie de Groot",
     "email": "harriedegroot@gmail.com"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "harriedegroot"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/harriedegroot/nl.novy.intouch/issues"
   },
   "flow": {
     "triggers": [
