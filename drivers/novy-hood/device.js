@@ -165,6 +165,20 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
                 state.targetSpeed = undefined;
             }
         }
+
+        // re-send signal (2x) if target speed == 0 (off)
+        if (data.unit == Signal.decrease && state.speed === 0) {
+            for (let i = 1; i <= 2; i++) {
+                setTimeout(() => this.send({ address: Signal.address, unit: Signal.decrease, repeatingSignal: true }), i * 50);
+            }
+        }
+
+        // re-send signal (2x) if target speed == 4 (POWER level)
+        if (data.unit == Signal.increase && state.speed === 4) {
+            for (let i = 1; i <= 2; i++) {
+                setTimeout(() => this.send({ address: Signal.address, unit: Signal.increase, repeatingSignal: true }), i * 50);
+            }
+        }
     }
 
     assembleSendData(data) {
