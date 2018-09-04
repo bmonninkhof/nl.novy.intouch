@@ -54,7 +54,7 @@ The internal `state` is *updated* on:
 3. Flow triggers & actions
 4. Manual override via Settings
 
-The internal `state` is ***NOT** updated* when:
+The internal `state` is **NOT** updated when:
 1. Pressing buttons on the device (i.e. hood)
 2. Remote signal is not detected
 3. Device safety measures (e.g. overheating)
@@ -63,7 +63,6 @@ The internal `state` is ***NOT** updated* when:
 
 ### TODO
 
-- Send additional commands when speed level is set to `off` or `POWER level`
 - Flow conditions
 - Keep track of `Auto-Stop` timeout (security measure, hood (not light) is turned off after 3 our of inactivity)
 - Keep track of `POWER level` timeout => reduced to speed level 3 after 6 minutes
@@ -79,7 +78,8 @@ The internal `state` is ***NOT** updated* when:
 
 ### Change log
 
-- **V2.0.0** [2018-08-26] : Initial release
+- **V2.0.1** [2018-09-04]: Bug fixes
+- **V2.0.0** [2018-08-26]: Initial release
 
 ## Final note ##
 The repository is available at: https://github.com/harriedegroot/nl.novy.intouch
