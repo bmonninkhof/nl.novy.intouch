@@ -1,6 +1,5 @@
 'use strict';
 
-const util = require('homey-rfdriver').util;
 const NovyIntouchDevice = require('../../lib/NovyIntouchDevice');
 const Signal = require('../../lib/NovyIntouchSignal.js').Signal;
 
