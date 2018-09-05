@@ -78,6 +78,7 @@ The internal `state` is **NOT** updated when:
 
 ### Change log
 
+- **V2.0.2** [2018-09-05]: Resolved App store crash
 - **V2.0.1** [2018-09-04]: Bug fixes
 - **V2.0.0** [2018-08-26]: Initial release
 

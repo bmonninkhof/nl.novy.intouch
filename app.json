@@ -1,6 +1,6 @@
 {
   "id": "nl.novy.intouch",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "compatibility": ">=1.5.3",
   "sdk": 2,
   "name": {
@@ -40,6 +40,14 @@
   "author": {
     "name": "Harrie de Groot",
     "email": "harriedegroot@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Harrie de Groot",
+        "email": "harriedegroot@gmail.com"
+      }
+    ]
   },
   "contributing": {
     "donate": {
