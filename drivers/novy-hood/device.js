@@ -1,7 +1,7 @@
 'use strict';
 
 const NovyIntouchDevice = require('../../lib/NovyIntouchDevice');
-const Signal = require('../../lib/NovyIntouchSignal.js').Signal;
+const Signal = require('../../lib/NovyIntouchSignal.js');
 
 const TimeOuts = {
     runOut: 10 * 60 * 1000,         // 10 minutes
@@ -60,9 +60,7 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
             lightHistory: state.lightHistory
         };
 
-        this.setSettings(settings)
-            .then(this.log)
-            .catch(this.error);
+        this.setSettings(settings);
 
         return settings;
     }
@@ -82,11 +80,10 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
             this._timeouts[timeout] = setTimeout(() => callback(), timeout);
         }
     }
-
+    
     updateState(settings) {
-        this.setSettings(settings)
-            .then(this.log)
-            .catch(this.error);
+        this._settings = settings;
+        this.setSettings(settings);
     }
 
     parseIncomingData(data) {
@@ -115,7 +112,7 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
                             this.activateTimeout(TimeOuts.runOut, () => this.updateState({ runOutActive: false, speed: 0, speed_level: 'speed_0' }));
                         }
                     } 
-                    state.offRunOut = undefined;
+                    delete state.offRunOut;
                     break;
                 case Signal.light:
                     state.light = !state.light;
@@ -155,29 +152,34 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
     }
 
     handleTargetSpeed(state, data) {
+
         if (state.targetSpeed !== undefined) {
             if (state.speed < state.targetSpeed && data.unit == Signal.increase) {
-                setTimeout(() => this.send({ address: Signal.address, unit: Signal.increase, repeatingSignal: true }), 50);
+                const msg = { address: Signal.address, unit: Signal.increase, repeatingSignal: true };
+                setTimeout(() => this.send(msg), 50);
             } else if (state.speed > state.targetSpeed && data.unit == Signal.decrease) {
-                setTimeout(() => this.send({ address: Signal.address, unit: Signal.decrease, repeatingSignal: true }), 50);
+                const msg = { address: Signal.address, unit: Signal.decrease, repeatingSignal: true };
+                setTimeout(() => this.send(msg), 50);
             } else {
-                state.targetSpeed = undefined;
+                delete state.targetSpeed;
             }
         }
 
         // re-send signal (2x) if target speed == 0 (off)
-        if (data.unit == Signal.decrease && state.speed === 0) {
-            for (let i = 1; i <= 2; i++) {
-                setTimeout(() => this.send({ address: Signal.address, unit: Signal.decrease, repeatingSignal: true }), i * 50);
-            }
-        }
+        //if (!hasTimeouts && data.unit == Signal.decrease && state.speed === 0) {
+        //    for (let i = 1; i <= 2; i++) {
+        //        const msg = { address: Signal.address, unit: Signal.decrease, repeatingSignal: true };
+        //        setTimeout(() => this.send(msg), i * 50);
+        //    }
+        //}
 
         // re-send signal (2x) if target speed == 4 (POWER level)
-        if (data.unit == Signal.increase && state.speed === 4) {
-            for (let i = 1; i <= 2; i++) {
-                setTimeout(() => this.send({ address: Signal.address, unit: Signal.increase, repeatingSignal: true }), i * 50);
-            }
-        }
+        //if (!hasTimeouts && data.unit == Signal.increase && state.speed === 4) {
+        //    for (let i = 1; i <= 2; i++) {
+        //        const msg = { address: Signal.address, unit: Signal.increase, repeatingSignal: true };
+        //        setTimeout(() => this.send(msg), i * 50);
+        //    }
+        //}
     }
 
     assembleSendData(data) {
@@ -260,12 +262,12 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
                         break;
                     case 'increase':
                         data.unit = Signal.increase;
-                        state.targetSpeed = undefined;
+                        delete state.targetSpeed;
                         data.speed = Math.min(4, Math.max(0, Number(state.speed || 0) + 1));
                         break;
                     case 'decrease':
                         data.unit = Signal.decrease;
-                        state.targetSpeed = undefined;
+                        delete state.targetSpeed;
                         data.speed = Math.min(4, Math.max(0, Number(state.speed || 0) - 1));
                         break;
                     case 'speed_0':
@@ -276,7 +278,7 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
                         data.speed = Number(data.command.substr(6));
                         if (data.speed === state.speed) {
                             data.unit = Signal.none;
-                            state.targetSpeed = undefined;
+                            delete state.targetSpeed;
                         } else {
                             if (data.speed > state.speed) {
                                 state.targetSpeed = data.speed;
