@@ -620,7 +620,8 @@
           "simple_socket": "Unplug the socket for a couple of seconds and plug it back in, the light should now be blinking. When it is in pairing mode click 'Program'.<p class=\"notice\">(Note. If you experience difficulties pairing try to reset your device by putting it in pairing mode and holding the group button on the remote for 5 seconds. All addresses should now be cleared from the socket.)</p>",
           "ALED-003": "Remove the one battery from the lamp and insert it again to put it in pairing mode. The light should now slowly blink. Then click 'Program'.",
           "ALED-2709": "Turn the power to the light on and off 3 times, or turn the light on and off with your remote 5 times, within 15 seconds to put the lamp in pairing mode. The lamp should now be blinking. Then click 'Program'.<p class=\"notice\">(Note. If pairing fails and after pressing the program button the lamp goes on/off for 5 times instead of 2 the memory of your lamp is full. You can reset the memory by putting your lamp in pairing mode and pressing the off button of a KlikAanKlikUit remote 5 times. If this does not work, please consult the manual of your device for instructions on how to reset the memory.)</p>",
-          "default": "Put your device in pairing mode, then click the 'Program' button to pair your device with Homey."
+          "default": "Put your device in pairing mode, then click the 'Program' button to pair your device with Homey.",
+          "doorbell": "Press the program button on your doorbell, the light on your doorbell should start blinking when you release the button. When it is in pairing mode click 'Program'"
         },
         "title": {
           "build_in": "Put the device in pairing mode",
@@ -656,9 +657,9 @@
           "sensor": "Trigger your sensor manually or use the LEARN switch on your sensor to test the signal. Press next to continue.",
           "blinds": "Use your remote or the buttons in the image above to test your blinds. Press next to continue.",
           "AMST-606": "Trigger your sensor manually to test the signal. Press next to continue.",
-          "default": "Press a random button on your device or click the button in the image above to test the signal. Press next to continue.",
-          "remote": "Press a random button on your remote or click the button in the image above to test the signal. Press next to continue.",
-          "wall_switch": "Press a random button on your wall switch or click the buttons in the image above to test the signal. Press next to continue.",
+          "default": "Press a random button on your device to test the signal. Press next to continue.",
+          "remote": "Press a random button on your remote to test the signal. Press next to continue.",
+          "wall_switch": "Press a random button on your wall switch to test the signal. Press next to continue.",
           "socket_generated": "Use the switch above to test your socket. Press next to continue.",
           "socket": "Use your remote or the switch above to test your socket. Press next to continue.",
           "button_generated": "Use the button above to test your device. Press next to continue.",
@@ -701,7 +702,7 @@
           "default": "Configure your device dipswitches"
         },
         "body": {
-          "default": "Click on the dipswitches above to put them in the same arrangement as those of your device, then click program."
+          "default": "Click on the dipswitches to put them in the same arrangement as those of your device, plug in the socket, then click program."
         }
       },
       "done": {

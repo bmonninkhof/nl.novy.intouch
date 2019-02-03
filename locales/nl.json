@@ -330,7 +330,7 @@
           },
           "generate": {
             "default": "Genereer nieuw signaal",
-            "codewheel": "lettercodeshijf instellen",
+            "codewheel": "lettercodeschijf instellen",
             "dipswitch": "dipswitches instellen"
           }
         },
@@ -339,13 +339,13 @@
           "codewheel_switch": "Kies of je het signaal van een gekoppelde afstandsbediening wil kopiëren of dat je handmatig de lettercodeshijf wil instellen.\u0000",
           "default": "Klik op een van de opties om verder te gaan.",
           "switch": "Kies of je het signaal van een gekoppelde afstandsbediening wil kopiëren of dat je het apparaat wil programmeren met een nieuw signaal van Homey.",
-          "codewheel": "Kies of je het signaal van een gekoppelde afstandsbediening wil kopiëren of dat je de lettercodeshijf handmatig wil instellen.",
+          "codewheel": "Kies of je het signaal van een gekoppelde afstandsbediening wil kopiëren of dat je de lettercodeschijf handmatig wil instellen.",
           "dipswitch": "Kies of je het signaal van een gekoppelde afstandsbediening wil kopiëren of dat je de dipswitches handmatig wil instellen."
         },
         "title": {
           "default": "Kies een van de volgende opties",
           "switch": "Kopieer de afstandsbediening of programmeer met Homey",
-          "codewheel": "Kopieer de afstandsbediening of stel de lettercodeshijfen handmatig in",
+          "codewheel": "Kopieer de afstandsbediening of stel de lettercodeschijfen handmatig in",
           "dipswitch": "Kopieer de afstandsbediening of stel de dipswitches handmatig in"
         }
       },
@@ -397,7 +397,8 @@
           "simple_socket": "Haal de contactdoos uit het stopcontact voor een aantal seconden en plaats hem terug in het stopcontact. Het rode lampje zou nu moeten knipperen. Wanneer het apparaat in koppelmodus is klik op 'Programmeer'.<p class=\"notice\">(Let op. Als je problemen ondervind bij het koppelen van je apparaat probeer het apparaat te resetten door hem in pairing modus te zetten en vervolgens de groep knop op de afstandsbediening 5 seconden in te houden. Alle addressen zullen nu van de contactdoos verwijderd moeten zijn.)</p>",
           "ALED-003": "Verwijder een batterij uit de lamp en stop deze terug om de lamp in programmeer modus te zetten. De lamp zal nu langzaam aan en uit gaan. Klik vervolgens op 'Programmeer'.",
           "ALED-2709": "Zet de stroom van de lamp 3 keer aan en uit, of gebruik de afstandsbediening om de lamp 5 keer aan en uit te zetten, binnen 15 seconden om de lamp in pair modus te zetten. De lamp zou nu moeten knipperen. Klik vervolgens op 'Programmeer'.<p class=\"notice\">(Note. Wanneer het koppelen mislukt en de lamp na op \"Programmeer\" te drukken 5 keer aan/uit gaat in plaats van 2 keer betekend dit dat het geheugen van de lamp vol zit. Dit geheugen is te resetten door in pair modus met een KlikAanKlikUit afstandsbediening 5x op de \"uit\" knop te drukken. Wanneer dit niet werkt raadpleeg aub. de handleiding van het apparaat voor instructies hoe het geheugen gereset moet worden.)</p>",
-          "default": "Zet het apparaat in programmeer modus en klik op 'Programmeer' om het apparaat met Homey te verbinden."
+          "default": "Zet het apparaat in programmeer modus en klik op 'Programmeer' om het apparaat met Homey te verbinden.",
+          "doorbell": "Druk op de programmeer knop, het lampje op de deurbel moet gaan knipperen wanneer de knop losgelaten wordt. Klik daarna op 'Programmeer'."
         },
         "title": {
           "build_in": "Zet het apparaat in programmeer modus",
@@ -431,11 +432,11 @@
           "blinds": "Gebruik de afstandsbediening of de bovenstaande knoppen om de zonnewering te testen. Klik op volgende om verder te gaan.",
           "sensor": "Laat de sensor handmatig afgaan of gebruik de LEARN knop om het signaal te testen. Klik op volgende om verder te gaan.",
           "AMST-606": "Laat de sensor handmatig afgaan om het signaal te testen. Klik op volgende om verder te gaan.",
-          "default": "Druk op een willekeurige knop op het apparaat of op de knoppen in het bovenstaande plaatje om het signaal te testen. Klik op volgende om verder te gaan.",
-          "remote": "Druk op een willekeurige knop op de afstandsbediening of op de knoppen in het bovenstaande plaatje om het signaal te testen. Klik op volgende om verder te gaan.",
-          "wall_switch": "Druk op een willekeurige knop op de wandschakelaar of op de knoppen in het bovenstaande plaatje om het signaal te testen. Klik op volgende om verder te gaan",
-          "socket_generated": "Gebruik te bovenstaande switch om de schakeldoos te testen. Klik op volgende om verder te gaan.",
-          "socket": "Gebruik de afstandsbediening of de bovenstaande switch om de schakeldoos te testen. Klik op volgende om verder te gaan.",
+          "default": "Druk op een willekeurige knop op het apparaat om het signaal te testen. Klik op volgende om verder te gaan.",
+          "remote": "Druk op een willekeurige knop op de afstandsbediening om het signaal te testen. Klik op volgende om verder te gaan.",
+          "wall_switch": "Druk op een willekeurige knop op de wandschakelaar om het signaal te testen. Klik op volgende om verder te gaan",
+          "socket_generated": "Gebruik de bovenstaande schakelaar om de schakeldoos te testen. Klik op volgende om verder te gaan.",
+          "socket": "Gebruik de afstandsbediening of de bovenstaande schakelaar om de schakeldoos te testen. Klik op volgende om verder te gaan.",
           "button_generated": "Gebruik de bovenstaande knop om het apparaat te testen. Klik op volgende om verder te gaan.",
           "button": "Gebruik de afstandsbediening of te bovenstaande knop om het apparaat te testen. Klik op volgende om verder te gaan.",
           "switch_generated": "Gebruik de bovenstaande knop om het apparaat te testen. Klik op volgende om verder te gaan.",
@@ -447,11 +448,11 @@
       "info": {
         "title": {
           "dipswitch": "Vind de dipswitches op het apparaat",
-          "codewheel": "Vind de lettercodeshijfen op het apparaat"
+          "codewheel": "Vind de lettercodeschijfen op het apparaat"
         },
         "body": {
           "dipswitch": "Vind de dipswitches op het apparaat zoals hierboven aangegeven, klik daarna op volgende.",
-          "codewheel": "Vind de lettercodeshijfen op het apparaat zoals hierboven aangegeven, klik daarna op volgende."
+          "codewheel": "Vind de lettercodeschijfen op het apparaat zoals hierboven aangegeven, klik daarna op volgende."
         }
       },
       "codewheel": {
@@ -462,7 +463,7 @@
           "default": "Configureer de apparaatcode"
         },
         "body": {
-          "default": "Klik op de karakters op de bovenstaande lettercodeshijf of pas de lettercodeshijf op het apparaat aan zodat deze gelijk aan elkaar zijn, klik daarna op volgende."
+          "default": "Klik op de karakters op de bovenstaande lettercodeschijf of pas de lettercodeschijf op het apparaat aan zodat deze gelijk aan elkaar zijn, klik daarna op volgende."
         }
       },
       "dipswitch": {
@@ -574,7 +575,11 @@
       "no_device": "Er is geen apparaat ingesteld. Sluit de pairing wizard en probeer opnieuw.",
       "no_settings": "Geen instelling object. Probeer aub opnieuw.",
       "invalid_device": "Het apparaat dat is aangemaakt is incorrect. Verwijder dit apparaat en probeer opnieuw.",
-      "cannot_pair_with_group_button": "Kan apparaat niet pairen met groep knop."
+      "cannot_pair_with_group_button": "Kan apparaat niet pairen met groep knop.",
+      "invalid_device_data": "Het apparaat dat is aangemaakt is incorrect. Verwijder dit apparaat en probeer opnieuw.",
+      "data_no_object": "Geen data object ontvangen",
+      "pairdevice_invalid_data": "Nieuw gekoppelde apparaat data is incorrect, wijzigingen worden teruggedraaid.",
+      "invalid_send_data": "Data om te versturen is incorrect."
     }
   }
 }
