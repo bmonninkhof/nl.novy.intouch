@@ -60,7 +60,8 @@ The internal `state` is **NOT** updated when:
 5. Other unknown reasons...
 
 ### TODO
-
+- Support additional signals
+- Create standalone light device
 - Flow conditions
 - Keep track of `Auto-Stop` timeout (security measure, hood (not light) is turned off after 3 our of inactivity)
 - Keep track of `POWER level` timeout => reduced to speed level 3 after 6 minutes
@@ -80,11 +81,11 @@ The internal `state` is **NOT** updated when:
 ## Final note ##
 The repository is available at: https://github.com/harriedegroot/nl.novy.intouch
 
-If you like the app, consider a donation to support development :beer: 
+Do you like this app? Consider a donation to support development. 
  
 [![Donate][pp-donate-image]][pp-donate-link]
 
 [v1-link]: https://github.com/ralfvd/be.novy.intouch
 [v1-author]: https://github.com/ralfvd/be.novy.intouch
-[pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=harriedegroot%40gmail%2ecom&lc=NL&item_name=Harrie%20de%20Groot&item_number=Homey%20Novy%20Intouch%20App&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
+[pp-donate-link]: https://www.paypal.me/harriedegroot
 [pp-donate-image]: https://img.shields.io/badge/Donate-PayPal-green.svg
