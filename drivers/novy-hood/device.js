@@ -1,42 +1,136 @@
 'use strict';
 
-const NovyIntouchDevice = require('../../lib/NovyIntouchDevice');
-const Signal = require('../../lib/NovyIntouchSignal.js');
+// Note: Homey SDK v3 provides global Homey object in runtime environment
 
+// Signal definitions
+const Signal = {
+    address: '0101010101',
+    light: '11010001',
+    increase: '01',
+    decrease: '10',
+    onoff: '11010011',
+    novy: '00',
+    none: '00000000'
+};
+
+// Timeouts
 const TimeOuts = {
     runOut: 10 * 60 * 1000,         // 10 minutes
-    autoStop: 3 * 60 * 60 * 1000,   // Safty stop after 3 hours (hood motor only)
+    autoStop: 3 * 60 * 60 * 1000,   // Safety stop after 3 hours (hood motor only)
     power: 6 * 60 * 1000            // 6 minutes (reduced to speed 3)
-}
+};
 
-module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevice(RFDevice) {
+class NovyIntouchHoodDevice extends Homey.Device {
 
-    static generateData() {
-        const data = super.generateData();
-        data.onoff = false;
-        data.speed = 0;
-        data.speed_level = "speed_0";
-        data.light = false;
-        data.command = 'off';
-        return data;
+    /**
+     * onInit is called when the device is initialized.
+     */
+    async onInit() {
+        this.log('NovyIntouchHoodDevice has been initialized');
+        
+        // Initialize state
+        this._timeouts = {};
+        this._settings = this.getSettings();
+        
+        // Register capability listeners
+        this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
+        this.registerCapabilityListener('light', this.onCapabilityLight.bind(this));
+        this.registerCapabilityListener('speed', this.onCapabilitySpeed.bind(this));
+        
+        // Get RF signal - access through driver
+        this._driver = this.getDriver();
+        this._signal = this._driver.homey.rf.getSignal433('intouch');
     }
 
-    getData() {
-        // HACK: Fix for unmatching ids @ send dataCheck due unit change => should be handled by matchesData call
-        return this._data ? Object.assign({}, this._data) : super.getData();
+    /**
+     * onAdded is called when the user adds the device, called just after pairing.
+     */
+    async onAdded() {
+        this.log('NovyIntouchHoodDevice has been added');
     }
 
-    getState(settings) {
-        settings = settings || this.getSettings();
-        let speed_level = settings.speed_level || 'speed_0';
-        let speed = Number(speed_level.substr(6));
+    /**
+     * onSettings is called when the user updates the device's settings.
+     */
+    async onSettings({ oldSettings, newSettings, changedKeys }) {
+        this.log('NovyIntouchHoodDevice settings changed');
+        this._settings = newSettings;
+    }
+
+    /**
+     * onRenamed is called when the user updates the device's name.
+     */
+    async onRenamed(name) {
+        this.log('NovyIntouchHoodDevice was renamed');
+    }
+
+    /**
+     * onDeleted is called when the user deleted the device.
+     */
+    async onDeleted() {
+        this.log('NovyIntouchHoodDevice has been deleted');
+        
+        // Clear all timeouts
+        Object.values(this._timeouts).forEach(timeout => clearTimeout(timeout));
+    }
+    
+    /**
+     * Check if this device matches the received frame
+     */
+    matchesFrame(data) {
+        // For Novy devices, we accept all frames with the correct address
+        // since the units identify different commands rather than different devices
+        return data && data.address === Signal.address;
+    }
+    
+    /**
+     * Handle incoming RF frame
+     */
+    onRFFrame(data, meta) {
+        this.log('Received RF frame:', data, meta);
+        
+        if (!data || !data.unit) return;
+        
+        const state = this.getState();
+        const settings = this.getSettings();
+        let command = '';
+        
+        switch (data.unit) {
+            case Signal.onoff:
+                command = this._handleOnOffSignal(state, settings);
+                break;
+            case Signal.light:
+                command = this._handleLightSignal(state, settings);
+                break;
+            case Signal.increase:
+                command = this._handleIncreaseSignal(state, settings);
+                break;
+            case Signal.decrease:
+                command = this._handleDecreaseSignal(state, settings);
+                break;
+        }
+        
+        if (command) {
+            // Trigger flow card
+            this.homey.flow.getTriggerCard('novy-hood:received')
+                .trigger(this, { command: command }, { command: command })
+                .catch(this.error);
+        }
+    }
+    
+    /**
+     * Get current device state
+     */
+    getState() {
+        const settings = this.getSettings();
+        const speed_level = settings.speed_level || 'speed_0';
+        const speed = Number(speed_level.substr(6));
+        
         return {
-            // public
             speed: speed,
             speed_level: speed_level,
             light: Boolean(settings.light),
-
-            // internal
+            onoff: speed > 0,
             offRunOut: settings.offRunOut,
             runOutActive: settings.runOutActive,
             targetSpeed: settings.targetSpeed,
@@ -44,265 +138,289 @@ module.exports = RFDevice => class NovyIntouchHoodDevice extends NovyIntouchDevi
             lightHistory: settings.lightHistory
         };
     }
-
-    saveState(state) {
-        let settings = {
-            // public
+    
+    /**
+     * Save device state
+     */
+    async saveState(state) {
+        const settings = {
             speed: state.speed || 0,
             speed_level: 'speed_' + (state.speed || 0),
             light: state.light,
-
-            // internal
             offRunOut: state.offRunOut,
             runOutActive: state.runOutActive,
             targetSpeed: state.targetSpeed,
             speedHistory: state.speedHistory,
             lightHistory: state.lightHistory
         };
-
-        this.setSettings(settings);
-
+        
+        await this.setSettings(settings);
+        
+        // Update capabilities
+        await this.setCapabilityValue('onoff', state.onoff);
+        await this.setCapabilityValue('light', state.light);
+        await this.setCapabilityValue('speed', state.speed);
+        
         return settings;
     }
-
+    
+    /**
+     * Handle on/off capability
+     */
+    async onCapabilityOnoff(value) {
+        this.log('onCapabilityOnoff:', value);
+        
+        const settings = this.getSettings();
+        const command = value ? 'on' : (settings.run_out ? 'off_run_out' : 'off');
+        
+        return this.sendCommand(command);
+    }
+    
+    /**
+     * Handle light capability
+     */
+    async onCapabilityLight(value) {
+        this.log('onCapabilityLight:', value);
+        
+        const command = value ? 'light_on' : 'light_off';
+        return this.sendCommand(command);
+    }
+    
+    /**
+     * Handle speed capability
+     */
+    async onCapabilitySpeed(value) {
+        this.log('onCapabilitySpeed:', value);
+        
+        const command = 'speed_' + value;
+        return this.sendCommand(command);
+    }
+    
+    /**
+     * Send command to device
+     */
+    async sendCommand(command) {
+        this.log('Sending command:', command);
+        
+        const state = this.getState();
+        const settings = this.getSettings();
+        
+        let unit;
+        let newState = { ...state };
+        
+        switch (command) {
+            case 'on':
+                if (!state.onoff) {
+                    unit = Signal.onoff;
+                    newState.speed = state.speedHistory || 1;
+                    newState.onoff = true;
+                }
+                break;
+            case 'off':
+            case 'off_run_out':
+                if (state.onoff) {
+                    unit = Signal.onoff;
+                    newState.offRunOut = command === 'off_run_out';
+                    newState.speed = 0;
+                    newState.onoff = false;
+                }
+                break;
+            case 'light_on':
+                if (!state.light) {
+                    unit = Signal.light;
+                    newState.light = true;
+                    newState.lightHistory = true;
+                }
+                break;
+            case 'light_off':
+                if (state.light) {
+                    unit = Signal.light;
+                    newState.light = false;
+                    newState.lightHistory = false;
+                }
+                break;
+            case 'toggle_light':
+                unit = Signal.light;
+                newState.light = !state.light;
+                newState.lightHistory = newState.light;
+                break;
+            case 'increase':
+                unit = Signal.increase;
+                newState.speed = Math.min(4, state.speed + 1);
+                newState.speedHistory = newState.speed;
+                newState.onoff = newState.speed > 0;
+                break;
+            case 'decrease':
+                unit = Signal.decrease;
+                newState.speed = Math.max(0, state.speed - 1);
+                newState.speedHistory = newState.speed;
+                newState.onoff = newState.speed > 0;
+                break;
+            default:
+                if (command.startsWith('speed_')) {
+                    const targetSpeed = Number(command.substr(6));
+                    if (targetSpeed !== state.speed) {
+                        if (targetSpeed > state.speed) {
+                            unit = Signal.increase;
+                        } else {
+                            unit = Signal.decrease;
+                        }
+                        newState.targetSpeed = targetSpeed;
+                        newState.speed = targetSpeed;
+                        newState.speedHistory = targetSpeed;
+                        newState.onoff = targetSpeed > 0;
+                    }
+                }
+                break;
+        }
+        
+        if (unit) {
+            // Convert unit to frame data
+            const frame = this._createFrame(Signal.address, unit);
+            
+            // Send RF signal
+            await this._signal.tx(frame);
+            
+            // Update state
+            await this.saveState(newState);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Create RF frame from address and unit
+     */
+    _createFrame(address, unit) {
+        const frame = [];
+        
+        // Add address bits
+        for (let i = 0; i < address.length; i++) {
+            frame.push(parseInt(address[i]));
+        }
+        
+        // Add unit bits
+        for (let i = 0; i < unit.length; i++) {
+            frame.push(parseInt(unit[i]));
+        }
+        
+        return frame;
+    }
+    
+    /**
+     * Handle on/off signal
+     */
+    _handleOnOffSignal(state, settings) {
+        this.resetTimeout(TimeOuts.runOut);
+        
+        const onoff = state.speed > 0;
+        const command = state.runOutActive || onoff ? 'off' : 'on';
+        
+        const newState = { ...state };
+        newState.speed = onoff ? (state.runOutActive ? 0 : state.speed) : state.speedHistory || 1;
+        newState.light = onoff ? false : Boolean(settings.lightHistory);
+        newState.runOutActive = command === 'off' && !state.runOutActive;
+        newState.onoff = newState.speed > 0;
+        
+        if (newState.runOutActive && newState.offRunOut !== false) {
+            this.activateTimeout(TimeOuts.runOut, () => {
+                this.updateState({ runOutActive: false, speed: 0, speed_level: 'speed_0', onoff: false });
+            });
+        }
+        
+        this.saveState(newState);
+        return command;
+    }
+    
+    /**
+     * Handle light signal
+     */
+    _handleLightSignal(state, settings) {
+        const newState = { ...state };
+        newState.light = !state.light;
+        newState.lightHistory = newState.light;
+        
+        this.saveState(newState);
+        return newState.light ? 'light_on' : 'light_off';
+    }
+    
+    /**
+     * Handle increase signal
+     */
+    _handleIncreaseSignal(state, settings) {
+        this.resetTimeout(TimeOuts.runOut);
+        
+        const newState = { ...state };
+        newState.runOutActive = false;
+        newState.speed = Math.min(4, Math.max(0, Number(state.speed || 0) + 1));
+        newState.speedHistory = newState.speed;
+        newState.onoff = newState.speed > 0;
+        
+        this.saveState(newState);
+        return 'increase';
+    }
+    
+    /**
+     * Handle decrease signal
+     */
+    _handleDecreaseSignal(state, settings) {
+        this.resetTimeout(TimeOuts.runOut);
+        
+        const newState = { ...state };
+        newState.runOutActive = false;
+        newState.speed = Math.min(4, Math.max(0, Number(state.speed || 0) - 1));
+        newState.speedHistory = newState.speed;
+        newState.onoff = newState.speed > 0;
+        
+        this.saveState(newState);
+        return 'decrease';
+    }
+    
+    /**
+     * Reset timeout
+     */
     resetTimeout(timeout) {
         if (this._timeouts && this._timeouts[timeout]) {
             clearTimeout(this._timeouts[timeout]);
+            delete this._timeouts[timeout];
         }
     }
-
+    
+    /**
+     * Activate timeout
+     */
     activateTimeout(timeout, callback) {
         if (!this._timeouts) {
             this._timeouts = {};
         }
-
+        
         if (callback) {
-            this._timeouts[timeout] = setTimeout(() => callback(), timeout);
+            this._timeouts[timeout] = setTimeout(() => {
+                callback();
+                delete this._timeouts[timeout];
+            }, timeout);
         }
     }
     
-    updateState(settings) {
-        this._settings = settings;
-        this.setSettings(settings);
-    }
-
-    parseIncomingData(data) {
-
-        if (data) {
-
-            const settings = this.getSettings();
-            const state = this.getState(settings);
-
-            switch (data.unit) {
-                case Signal.onoff:
-
-                    this.resetTimeout(TimeOuts.runOut);
-
-                    let onoff = state.speed > 0;
-                    data.command = state.runOutActive || onoff ? 'off' : 'on';
-                    state.speed = onoff ? (state.runOutActive ? 0 : state.speed) : state.speedHistory || 1;
-                    state.targetSpeed = state.speed;
-                    state.light = onoff ? false : Boolean(settings.lightHistory);
-                    state.runOutActive = data.command === 'off' && !state.runOutActive;
-
-                    if (state.runOutActive) {
-                        if (state.offRunOut === false) {
-                            setTimeout(() => this.send({ address: Signal.address, unit: Signal.onoff, repeatingSignal: true }), 50); // re-send signal to skip run-out mode
-                        } else {
-                            this.activateTimeout(TimeOuts.runOut, () => this.updateState({ runOutActive: false, speed: 0, speed_level: 'speed_0' }));
-                        }
-                    } 
-                    delete state.offRunOut;
-                    break;
-                case Signal.light:
-                    state.light = !state.light;
-                    state.lightHistory = state.light;
-                    data.command = state.light ? 'light_on' : 'light_off';
-                    break;
-                case Signal.increase:
-                    this.resetTimeout(TimeOuts.runOut);
-                    state.runOutActive = false;
-                    state.speed = Math.min(4, Math.max(0, Number(state.speed || 0) + 1));
-                    state.speedHistory = state.speed;
-                    data.command = 'increase';
-                    this.handleTargetSpeed(state, data);
-                    break;
-                case Signal.decrease:
-                    this.resetTimeout(TimeOuts.runOut);
-                    state.runOutActive = false;
-                    state.speed = Math.min(4, Math.max(0, Number(state.speed || 0) - 1));
-                    state.speedHistory = state.speed;
-                    data.command = 'decrease';
-                    this.handleTargetSpeed(state, data);
-                    break;
-            }
-
-            // update state
-            state.speed_level = 'speed_' + state.speed;
-            this.saveState(state);
-            
-            // update data
-            data.light = Boolean(state.light);
-            data.speed = state.targetSpeed || state.speed;
-            data.onoff = data.speed > 0;
-            data.speed_level = 'speed_' + data.speed;
-        }
-
-        return super.parseIncomingData(data);
-    }
-
-    handleTargetSpeed(state, data) {
-
-        if (state.targetSpeed !== undefined) {
-            if (state.speed < state.targetSpeed && data.unit == Signal.increase) {
-                const msg = { address: Signal.address, unit: Signal.increase, repeatingSignal: true };
-                setTimeout(() => this.send(msg), 50);
-            } else if (state.speed > state.targetSpeed && data.unit == Signal.decrease) {
-                const msg = { address: Signal.address, unit: Signal.decrease, repeatingSignal: true };
-                setTimeout(() => this.send(msg), 50);
-            } else {
-                delete state.targetSpeed;
-            }
-        }
-
-        // re-send signal (2x) if target speed == 0 (off)
-        //if (!hasTimeouts && data.unit == Signal.decrease && state.speed === 0) {
-        //    for (let i = 1; i <= 2; i++) {
-        //        const msg = { address: Signal.address, unit: Signal.decrease, repeatingSignal: true };
-        //        setTimeout(() => this.send(msg), i * 50);
-        //    }
-        //}
-
-        // re-send signal (2x) if target speed == 4 (POWER level)
-        //if (!hasTimeouts && data.unit == Signal.increase && state.speed === 4) {
-        //    for (let i = 1; i <= 2; i++) {
-        //        const msg = { address: Signal.address, unit: Signal.increase, repeatingSignal: true };
-        //        setTimeout(() => this.send(msg), i * 50);
-        //    }
-        //}
-    }
-
-    assembleSendData(data) {
-
-        if (data) {
-
-            // get settings & state
-            const settings = this.getSettings();
-            const state = this.getState(settings);
-            let onoff = state.speed > 0;
-
-            // Skip repeating signals
-            if (data.repeatingSignal) {
-                delete data.repeatingSignal;
-
-                // assemble
-                data = super.assembleSendData(data);
-
-                // update data
-                data.speed = state.speed;
-                data.light = state.light;
-            }
-            else {
-                // map capability to command
-                if (!data.unit) {
-                    if (data.onoff !== undefined) {
-                        switch (settings.onoff_action) {
-                            case "light":
-                                data.command = data.onoff ? 'light_on' : 'light_off';
-                                break;
-                            case "hood":
-                                data.command = 'speed_' + (data.onoff ? state.speedHistory || 1 : 0);
-                                break;
-                            case "device":
-                            default:
-                                data.command = data.onoff ? 'on' : settings.run_out ? 'off_run_out' : 'off';
-                                break;
-                        }
-                    }
-                    if (data.speed !== undefined) {
-                        data.command = 'speed_' + data.speed;
-                    }
-                    if (data.light !== undefined) {
-                        data.command = data.light ? 'light_on' : 'light_off';
-                    }
-                }
-
-                // assemble
-                data = super.assembleSendData(data);
-
-                // set action
-                switch (data.command) {
-                    case 'on':
-                        data.unit = !onoff ? Signal.onoff : Signal.none;
-                        data.speed = state.speedHistory || state.speed || 1;
-                        break;
-                    case 'off':
-                    case 'off_run_out':
-                        data.unit = onoff ? Signal.onoff : Signal.none;
-                        state.offRunOut = data.command === 'off_run_out';
-                        data.speed = 0;
-                        break;
-                    case 'toggle_onoff':
-                    case 'toggle_onoff_run_out':
-                        data.unit = Signal.onoff;
-                        state.offRunOut = onoff && data.command === 'toggle_onoff_run_out';
-                        data.speed = onoff ? 0 : state.speedHistory || state.speed || 1;
-                        break;
-                    case 'light_on':
-                        data.unit = !state.light ? Signal.light : Signal.none;
-                        data.light = true;
-                        break;
-                    case 'light_off':
-                        data.unit = state.light ? Signal.light : Signal.none;
-                        data.light = false;
-                        break;
-                    case 'toggle_light':
-                        data.unit = Signal.light;
-                        data.light = !state.light;
-                        break;
-                    case 'increase':
-                        data.unit = Signal.increase;
-                        delete state.targetSpeed;
-                        data.speed = Math.min(4, Math.max(0, Number(state.speed || 0) + 1));
-                        break;
-                    case 'decrease':
-                        data.unit = Signal.decrease;
-                        delete state.targetSpeed;
-                        data.speed = Math.min(4, Math.max(0, Number(state.speed || 0) - 1));
-                        break;
-                    case 'speed_0':
-                    case 'speed_1':
-                    case 'speed_2':
-                    case 'speed_3':
-                    case 'speed_4':
-                        data.speed = Number(data.command.substr(6));
-                        if (data.speed === state.speed) {
-                            data.unit = Signal.none;
-                            delete state.targetSpeed;
-                        } else {
-                            if (data.speed > state.speed) {
-                                state.targetSpeed = data.speed;
-                                data.unit = Signal.increase;
-                            } else if (data.speed < state.speed) {
-                                state.targetSpeed = data.speed;
-                                data.unit = Signal.decrease;
-                            }
-                        }
-                        break;
-                }
-
-                // update internal state (save settings)
-                this.saveState(state);
-            }
-
-            // update data
-            data.onoff = data.speed > 0;
-            data.speed_level = 'speed_' + data.speed;
-
-            // FIX: register data to fix id mismatches due unit change
-            this._data = data;
-        }
+    /**
+     * Update state
+     */
+    async updateState(settings) {
+        this._settings = { ...this._settings, ...settings };
+        await this.setSettings(this._settings);
         
-        return data;
+        // Update capabilities if needed
+        if (settings.onoff !== undefined) {
+            await this.setCapabilityValue('onoff', settings.onoff);
+        }
+        if (settings.light !== undefined) {
+            await this.setCapabilityValue('light', settings.light);
+        }
+        if (settings.speed !== undefined) {
+            await this.setCapabilityValue('speed', settings.speed);
+        }
     }
-};
+
+}
+
+module.exports = NovyIntouchHoodDevice;

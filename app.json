@@ -1,8 +1,8 @@
 {
   "id": "nl.novy.intouch",
-  "version": "2.0.3",
-  "compatibility": ">=1.5.3",
-  "sdk": 2,
+  "version": "3.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
   "name": {
     "en": "Novy Intouch v2",
     "nl": "Novy Intouch v2"
@@ -181,11 +181,6 @@
                   "en": "Hood POWER level (max)",
                   "nl": "Afzuiging POWER niveau (max)"
                 }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "filter": "driver_id=novy-hood"
               }
             ]
           }
@@ -313,11 +308,6 @@
                   "en": "Hood POWER level (max)",
                   "nl": "Afzuiging POWER niveau (max)"
                 }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "filter": "driver_id=novy-hood"
               }
             ]
           }
@@ -327,21 +317,8 @@
   },
   "drivers": [
     {
-      "class": "light",
-      "images": {
-        "large": "/drivers/novy-hood/assets/images/large.jpg",
-        "small": "/drivers/novy-hood/assets/images/small.jpg"
-      },
-      "icon": "/drivers/novy-hood/assets/icon.svg",
-      "rf": {
-        "logLevel": "debug",
-        "debounceTime": 250,
-        "minTxInterval": 1000,
-        "syncOnOffOnDim": false,
-        "dropPendingPayload": true,
-        "signal": "intouch"
-      },
       "id": "novy-hood",
+      "class": "light",
       "name": {
         "en": "Novy Intouch hood",
         "nl": "Novy Intouch afzuiging"
@@ -405,6 +382,16 @@
           }
         ]
       },
+      "energy": {
+        "approximation": {
+          "usageConstant": 150
+        }
+      },
+      "images": {
+        "large": "/drivers/novy-hood/assets/images/large.jpg",
+        "small": "/drivers/novy-hood/assets/images/small.jpg"
+      },
+      "icon": "/drivers/novy-hood/assets/icon.svg",
       "settings": [
         {
           "type": "group",
@@ -531,17 +518,15 @@
       ],
       "pair": [
         {
-          "id": "rf.imitate",
-          "options": {
-            "title": "rf.pair.imitate.title.remote",
-            "body": "rf.pair.imitate.body.remote"
-          },
+          "id": "list_devices",
+          "template": "list_devices",
           "navigation": {
-            "next": "rf.done"
+            "next": "add_devices"
           }
         },
         {
-          "id": "rf.done"
+          "id": "add_devices",
+          "template": "add_devices"
         }
       ]
     }
@@ -576,21 +561,13 @@
       "chartType": "stepLine"
     }
   },
-  "signals": {
+  "rf": {
     "433": {
       "intouch": {
-        "sof": [
-          356
-        ],
+        "sof": [356],
         "words": [
-          [
-            404,
-            711
-          ],
-          [
-            759,
-            356
-          ]
+          [404, 711],
+          [759, 356]
         ],
         "interval": 10000,
         "sensitivity": 0.5,
