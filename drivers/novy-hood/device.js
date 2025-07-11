@@ -1,6 +1,6 @@
 'use strict';
 
-const Homey = require('homey');
+// Note: Homey SDK v3 provides global Homey object in runtime environment
 
 // Signal definitions
 const Signal = {

@@ -338,6 +338,50 @@
           "greyout": false
         }
       },
+      "mobile": {
+        "components": [
+          {
+            "id": "icon",
+            "capabilities": [
+              "onoff",
+              "light",
+              "speed"
+            ]
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "onoff"
+            ]
+          },
+          {
+            "id": "sensor",
+            "capabilities": [
+              "speed"
+            ],
+            "options": {
+              "icons": {
+                "speed": "assets/icon.svg"
+              }
+            }
+          },
+          {
+            "id": "slider",
+            "capabilities": [
+              "speed"
+            ],
+            "options": {
+              "showTitle": false
+            }
+          },
+          {
+            "id": "toggle",
+            "capabilities": [
+              "light"
+            ]
+          }
+        ]
+      },
       "energy": {
         "approximation": {
           "usageConstant": 150
@@ -515,22 +559,6 @@
       "step": 1,
       "decimals": 0,
       "chartType": "stepLine"
-    }
-  },
-  "signals": {
-    "433": {
-      "intouch": {
-        "sof": [356],
-        "words": [
-          [404, 711],
-          [759, 356]
-        ],
-        "interval": 10000,
-        "sensitivity": 0.5,
-        "repetitions": 20,
-        "minimalLength": 12,
-        "maximalLength": 18
-      }
     }
   },
   "rf": {
