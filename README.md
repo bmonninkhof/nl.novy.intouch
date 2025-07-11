@@ -1,6 +1,20 @@
-### Novy Intouch Driver V2
+### Novy Intouch Driver V3 (Homey SDK v3)
 
 With this app you can manage your Novy Intouch devices via Homey.
+
+**Note: This version has been completely rewritten for Homey SDK v3 and requires Homey v5.0.0 or higher.**
+
+### What's New in V3
+- **Complete SDK v3 Migration**: Fully rewritten to use Homey SDK v3
+- **Modern RF Implementation**: Uses native Homey RF API instead of homey-rfdriver
+- **Improved Performance**: Streamlined codebase with better error handling
+- **Enhanced Compatibility**: Designed for Homey v5.0.0 and later
+
+### Migration from V2
+If you're upgrading from V2, please note:
+- Devices will need to be re-paired after updating to V3
+- All functionality remains the same, but the underlying implementation is modernized
+- Settings and device data will be preserved during the upgrade
 
 
 ### Installation
