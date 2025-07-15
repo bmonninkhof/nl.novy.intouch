@@ -1,325 +1,69 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "nl.novy.intouch",
-  "version": "2.0.3",
-  "compatibility": ">=1.5.3",
-  "sdk": 2,
+  "sdk": 3,
+  "version": "3.0.1",
+  "brandColor": "#000000",
+  "compatibility": ">=5.0.0",
   "name": {
-    "en": "Novy Intouch v2",
-    "nl": "Novy Intouch v2"
+    "en": "a Novy Intouch",
+    "nl": "Novy Intouch",
+    "de": "Novy Intouch"
   },
   "description": {
-    "en": "Control your Novy Intouch hood",
-    "nl": "Bedien je Novy Intouch afzuigkap"
+    "en": "Control your Novy hood with InTouch remote",
+    "nl": "Bestuur je Novy afzuigkap met InTouch afstandsbediening",
+    "de": "Steuern Sie Ihre Novy Dunstabzugshaube mit der InTouch Fernbedienung"
   },
   "category": [
     "appliances"
   ],
-  "tags": {
-    "en": [
-      "Novy",
-      "InTouch",
-      "hood",
-      "light",
-      "damper"
-    ],
-    "nl": [
-      "Novy",
-      "InTouch",
-      "afzuiging",
-      "lamp",
-      "afzuigkap"
-    ]
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "author": {
+    "name": "Novy InTouch Community",
+    "email": "support@example.com"
   },
   "permissions": [
     "homey:wireless:433"
   ],
-  "images": {
-    "large": "/assets/images/large.png",
-    "small": "/assets/images/small.png"
-  },
-  "author": {
-    "name": "Harrie de Groot",
-    "email": "harriedegroot@gmail.com"
-  },
-  "contributors": {
-    "developers": [
-      {
-        "name": "Harrie de Groot",
-        "email": "harriedegroot@gmail.com"
-      }
-    ]
-  },
-  "contributing": {
-    "donate": {
-      "paypal": {
-        "username": "harriedegroot"
-      }
-    }
-  },
-  "bugs": {
-    "url": "https://github.com/harriedegroot/nl.novy.intouch/issues"
-  },
   "flow": {
     "triggers": [
       {
-        "id": "novy-hood:received",
+        "id": "novy_rf_received",
         "title": {
-          "en": "Command received",
-          "nl": "Commando ontvangen"
+          "en": "RF signal received",
+          "nl": "RF signaal ontvangen",
+          "de": "RF-Signal empfangen"
+        },
+        "hint": {
+          "en": "Triggers when the hood receives an RF signal from the remote.",
+          "nl": "Triggert wanneer de afzuigkap een RF signaal ontvangt van de afstandsbediening.",
+          "de": "Wird ausgelöst, wenn die Dunstabzugshaube ein RF-Signal von der Fernbedienung empfängt."
         },
         "args": [
           {
             "type": "device",
             "name": "device",
             "filter": "driver_id=novy-hood"
-          },
-          {
-            "name": "command",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "on",
-                "label": {
-                  "en": "Turned on",
-                  "nl": "Aangezet"
-                }
-              },
-              {
-                "id": "off",
-                "label": {
-                  "en": "Turned off",
-                  "nl": "Uitgezet"
-                }
-              },
-              {
-                "id": "off_run_out",
-                "label": {
-                  "en": "Turned off with run out mode",
-                  "nl": "Uitgezet met naloopstand"
-                }
-              },
-              {
-                "id": "toggle_onoff",
-                "label": {
-                  "en": "Toggled between on/off",
-                  "nl": "Gewisseld tussen aan/uit"
-                }
-              },
-              {
-                "id": "toggle_onoff_run_out",
-                "label": {
-                  "en": "Toggled between on/off with run-out mode",
-                  "nl": "Gewisseld tussen aan/uit met naloopstand"
-                }
-              },
-              {
-                "id": "light_on",
-                "label": {
-                  "en": "Light on",
-                  "nl": "Lamp aan"
-                }
-              },
-              {
-                "id": "light_off",
-                "label": {
-                  "en": "Light off",
-                  "nl": "Lamp uit"
-                }
-              },
-              {
-                "id": "toggle_light",
-                "label": {
-                  "en": "Toggled light on/off",
-                  "nl": "Gewisseld tussen lamp aan/uit"
-                }
-              },
-              {
-                "id": "increase",
-                "label": {
-                  "en": "Speed increased",
-                  "nl": "Snelheid verhoogd"
-                }
-              },
-              {
-                "id": "decrease",
-                "label": {
-                  "en": "Speed reduced",
-                  "nl": "Snelheid verlaagd"
-                }
-              },
-              {
-                "id": "speed_0",
-                "label": {
-                  "en": "Hood off",
-                  "nl": "Afzuiging uit"
-                }
-              },
-              {
-                "id": "speed_1",
-                "label": {
-                  "en": "Hood level 1",
-                  "nl": "Afzuiging niveau 1"
-                }
-              },
-              {
-                "id": "speed_2",
-                "label": {
-                  "en": "Hood level 2",
-                  "nl": "Afzuiging niveau 2"
-                }
-              },
-              {
-                "id": "speed_3",
-                "label": {
-                  "en": "Hood level 3",
-                  "nl": "Afzuiging niveau 3"
-                }
-              },
-              {
-                "id": "speed_4",
-                "label": {
-                  "en": "Hood POWER level (max)",
-                  "nl": "Afzuiging POWER niveau (max)"
-                }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "filter": "driver_id=novy-hood"
-              }
-            ]
           }
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "id": "novy-hood:send",
-        "title": {
-          "en": "Send command to the hood",
-          "nl": "Stuur commando naar de afzuiging"
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=novy-hood"
-          },
+        ],
+        "tokens": [
           {
             "name": "command",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "on",
-                "label": {
-                  "en": "Turn on",
-                  "nl": "Zet aan"
-                }
-              },
-              {
-                "id": "off",
-                "label": {
-                  "en": "Turn off",
-                  "nl": "Zet uit"
-                }
-              },
-              {
-                "id": "off_run_out",
-                "label": {
-                  "en": "Turn off with run out mode",
-                  "nl": "Zet uit met naloopstand"
-                }
-              },
-              {
-                "id": "toggle_onoff",
-                "label": {
-                  "en": "Toggle on/off",
-                  "nl": "Wissel tussen aan/uit"
-                }
-              },
-              {
-                "id": "toggle_onoff_run_out",
-                "label": {
-                  "en": "Toggle on/off with run-out mode",
-                  "nl": "Wissel tussen aan/uit met naloopstand"
-                }
-              },
-              {
-                "id": "light_on",
-                "label": {
-                  "en": "Turn light on",
-                  "nl": "Zet lamp aan"
-                }
-              },
-              {
-                "id": "light_off",
-                "label": {
-                  "en": "Turn light off",
-                  "nl": "Zet lamp uit"
-                }
-              },
-              {
-                "id": "toggle_light",
-                "label": {
-                  "en": "Toggle light on/off",
-                  "nl": "Wissel tussen lamp aan/uit"
-                }
-              },
-              {
-                "id": "increase",
-                "label": {
-                  "en": "Increase speed",
-                  "nl": "Snelheid verhogen"
-                }
-              },
-              {
-                "id": "decrease",
-                "label": {
-                  "en": "Reduce speed",
-                  "nl": "Snelheid verlagen"
-                }
-              },
-              {
-                "id": "speed_0",
-                "label": {
-                  "en": "Hood off",
-                  "nl": "Afzuiging uit"
-                }
-              },
-              {
-                "id": "speed_1",
-                "label": {
-                  "en": "Hood level 1",
-                  "nl": "Afzuiging niveau 1"
-                }
-              },
-              {
-                "id": "speed_2",
-                "label": {
-                  "en": "Hood level 2",
-                  "nl": "Afzuiging niveau 2"
-                }
-              },
-              {
-                "id": "speed_3",
-                "label": {
-                  "en": "Hood level 3",
-                  "nl": "Afzuiging niveau 3"
-                }
-              },
-              {
-                "id": "speed_4",
-                "label": {
-                  "en": "Hood POWER level (max)",
-                  "nl": "Afzuiging POWER niveau (max)"
-                }
-              },
-              {
-                "name": "device",
-                "type": "device",
-                "filter": "driver_id=novy-hood"
-              }
-            ]
+            "type": "string",
+            "title": {
+              "en": "Command",
+              "nl": "Commando",
+              "de": "Befehl"
+            },
+            "example": {
+              "en": "on",
+              "nl": "aan",
+              "de": "ein"
+            }
           }
         ]
       }
@@ -327,276 +71,77 @@
   },
   "drivers": [
     {
-      "class": "light",
+      "name": {
+        "en": "Novy Intouch hood",
+        "nl": "Novy Intouch afzuiging",
+        "de": "Novy Intouch Dunstabzugshaube"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
       "images": {
         "large": "/drivers/novy-hood/assets/images/large.jpg",
         "small": "/drivers/novy-hood/assets/images/small.jpg"
       },
-      "icon": "/drivers/novy-hood/assets/icon.svg",
-      "rf": {
-        "logLevel": "debug",
-        "debounceTime": 250,
-        "minTxInterval": 1000,
-        "syncOnOffOnDim": false,
-        "dropPendingPayload": true,
-        "signal": "intouch"
+      "rf433": {
+        "satelliteMode": false
       },
-      "id": "novy-hood",
-      "name": {
-        "en": "Novy Intouch hood",
-        "nl": "Novy Intouch afzuiging"
-      },
-      "capabilities": [
-        "onoff",
-        "light",
-        "speed"
-      ],
-      "capabilitiesOptions": {
-        "onoff": {
-          "setOnDim": false,
-          "greyout": false
-        },
-        "light": {
-          "setOnDim": false,
-          "greyout": false
-        }
-      },
-      "mobile": {
-        "components": [
-          {
-            "id": "icon",
-            "capabilities": [
-              "onoff",
-              "light",
-              "speed"
-            ]
-          },
-          {
-            "id": "toggle",
-            "capabilities": [
-              "onoff"
-            ]
-          },
-          {
-            "id": "sensor",
-            "capabilities": [
-              "speed"
-            ],
-            "options": {
-              "icons": {
-                "speed": "assets/icon.svg"
-              }
-            }
-          },
-          {
-            "id": "slider",
-            "capabilities": [
-              "speed"
-            ],
-            "options": {
-              "showTitle": false
-            }
-          },
-          {
-            "id": "toggle",
-            "capabilities": [
-              "light"
-            ]
-          }
-        ]
-      },
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General settings",
-            "nl": "Algemene instellingen"
-          },
-          "children": [
-            {
-              "id": "onoff_action",
-              "type": "radio",
-              "label": {
-                "en": "On/off action",
-                "nl": "Aan/uit actie"
-              },
-              "hint": {
-                "en": "What action should be executed when pressing the on/off button?",
-                "nl": "Wat moet er gebeuren als de aan/uit knop wordt ingedrukt?"
-              },
-              "value": "device",
-              "values": [
-                {
-                  "id": "device",
-                  "label": {
-                    "en": "Hood & Lights",
-                    "nl": "Afzuiging & Lampen"
-                  }
-                },
-                {
-                  "id": "light",
-                  "label": {
-                    "en": "Lights only",
-                    "nl": "Alleen lampen"
-                  }
-                },
-                {
-                  "id": "hood",
-                  "label": {
-                    "en": "Hood only",
-                    "nl": "Alleen afzuiging"
-                  }
-                }
-              ]
-            },
-            {
-              "id": "run_out",
-              "type": "checkbox",
-              "label": {
-                "en": "Turn off with run-out mode?",
-                "nl": "Uitschakelen met naloopstand?"
-              },
-              "hint": {
-                "en": "When enabled the device will delay shut down for 10 min.",
-                "nl": "Met naloopstand zal het apparaat het uitschakelen 10 min uitstellen."
-              },
-              "value": false
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Current state",
-            "nl": "Huidige status"
-          },
-          "children": [
-            {
-              "id": "light",
-              "type": "checkbox",
-              "value": false,
-              "label": {
-                "en": "The lights are currently on?",
-                "nl": "De lampen staan nu aan?"
-              }
-            },
-            {
-              "id": "speed_level",
-              "type": "dropdown",
-              "value": "speed_0",
-              "label": {
-                "en": "Current hood speed",
-                "nl": "Huidige snelheid van de afzuiging"
-              },
-              "values": [
-                {
-                  "id": "speed_0",
-                  "label": {
-                    "en": "Off",
-                    "nl": "Uit"
-                  }
-                },
-                {
-                  "id": "speed_1",
-                  "label": {
-                    "en": "Level 1",
-                    "nl": "Niveau 1"
-                  }
-                },
-                {
-                  "id": "speed_2",
-                  "label": {
-                    "en": "Level 2",
-                    "nl": "Niveau 2"
-                  }
-                },
-                {
-                  "id": "speed_3",
-                  "label": {
-                    "en": "Level 3",
-                    "nl": "Niveau 3"
-                  }
-                },
-                {
-                  "id": "speed_4",
-                  "label": {
-                    "en": "POWER level (max)",
-                    "nl": "POWER niveau (max)"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "pair": [
         {
-          "id": "rf.imitate",
-          "options": {
-            "title": "rf.pair.imitate.title.remote",
-            "body": "rf.pair.imitate.body.remote"
-          },
+          "id": "rf_receiver_learn",
           "navigation": {
-            "next": "rf.done"
+            "next": "rf_receiver_test"
           }
         },
         {
-          "id": "rf.done"
+          "id": "rf_receiver_test",
+          "navigation": {
+            "next": "rf_receiver_add"
+          }
+        },
+        {
+          "id": "rf_receiver_add"
         }
-      ]
+      ],
+      "connectivity": [
+        "rf433"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "id": "novy-hood"
     }
   ],
-  "capabilities": {
-    "light": {
-      "type": "boolean",
-      "title": {
-        "en": "Light",
-        "nl": "Lamp"
-      },
-      "getable": true,
-      "setable": true
-    },
-    "speed": {
-      "type": "number",
-      "uiComponent": "slider",
-      "title": {
-        "en": "Speed",
-        "nl": "Snelheid"
-      },
-      "getable": true,
-      "setable": true,
-      "units": {
-        "en": "",
-        "nl": ""
-      },
-      "min": 0,
-      "max": 4,
-      "step": 1,
-      "decimals": 0,
-      "chartType": "stepLine"
-    }
-  },
   "signals": {
     "433": {
-      "intouch": {
+      "novy_intouch": {
         "sof": [
-          356
+          275,
+          2640
+        ],
+        "eof": [
+          275
         ],
         "words": [
           [
-            404,
-            711
+            250,
+            275,
+            250,
+            1250
           ],
           [
-            759,
-            356
+            250,
+            1250,
+            250,
+            275
           ]
         ],
         "interval": 10000,
         "sensitivity": 0.5,
         "repetitions": 20,
-        "minimalLength": 12,
-        "maximalLength": 18
+        "minimalLength": 20,
+        "maximalLength": 24
       }
     }
   }

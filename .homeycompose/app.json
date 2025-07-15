@@ -1,0 +1,69 @@
+{
+  "id": "nl.novy.intouch",
+  "sdk": 3,
+  "version": "3.0.1",
+  "brandColor": "#000000",
+  "compatibility": ">=5.0.0",
+  "name": {
+    "en": "a Novy Intouch",
+    "nl": "Novy Intouch",
+    "de": "Novy Intouch"
+  },
+  "description": {
+    "en": "Control your Novy hood with InTouch remote",
+    "nl": "Bestuur je Novy afzuigkap met InTouch afstandsbediening",
+    "de": "Steuern Sie Ihre Novy Dunstabzugshaube mit der InTouch Fernbedienung"
+  },
+  "category": [
+    "appliances"
+  ],
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "author": {
+    "name": "Novy InTouch Community",
+    "email": "support@example.com"
+  },
+  "permissions": [
+    "homey:wireless:433"
+  ],
+  "drivers": [
+    {
+      "name": {
+        "en": "Novy Intouch hood",
+        "nl": "Novy Intouch afzuiging",
+        "de": "Novy Intouch Dunstabzugshaube"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "images": {
+        "large": "/drivers/novy-hood/assets/images/large.jpg",
+        "small": "/drivers/novy-hood/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "rf_receiver_learn",
+          "navigation": {
+            "next": "rf_receiver_test"
+          }
+        },
+        {
+          "id": "rf_receiver_test",
+          "navigation": {
+            "next": "rf_receiver_add"
+          }
+        },
+        {
+          "id": "rf_receiver_add"
+        },
+        {
+          "id": "rf_learning_failed"
+        }
+      ],
+      "id": "novy-hood"
+    }
+  ]
+}

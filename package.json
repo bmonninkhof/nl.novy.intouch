@@ -1,26 +1,23 @@
 {
   "name": "nl.novy.intouch",
-  "version": "2.0.0",
-  "description": "Novy Intouch v2",
+  "version": "3.0.1",
+  "description": "Novy Intouch",
   "main": "app.js",
   "directories": {
     "lib": "lib"
   },
   "dependencies": {
-    "homey-log": "^1.0.5",
-    "homey-rfdriver": "^2.0.17"
+    "homey-rfdriver": "^3.0.4"
   },
-  "devDependencies": {
-    "inspector": "^0.5.0"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harriedegroot/nl.novy.intouch.git"
+    "url": "git+https://github.com/TheLostHomeyAppRepositories/nl.novy.intouch.git"
   },
-  "author": "Harrie de Groot",
+  "author": "Novy InTouch Community",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/harriedegroot/nl.novy.intouch/issues"
+    "url": "https://github.com/TheLostHomeyAppRepositories/nl.novy.intouch/issues"
   },
-  "homepage": "https://github.com/harriedegroot/nl.novy.intouch#readme"
+  "homepage": "https://github.com/TheLostHomeyAppRepositories/nl.novy.intouch#readme"
 }

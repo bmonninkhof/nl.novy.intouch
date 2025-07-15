@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Device</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            text-align: center;
+            background: #f5f5f5;
+            margin: 0;
+        }
+        .container {
+            max-width: 350px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 100px;
+        }
+        .btn:disabled {
+            background: #ccc;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apparaat Toevoegen</h1>
+        <div class="instruction">
+            Het RF-signaal is succesvol geleerd. Klik op "Apparaat Toevoegen" om de installatie te voltooien.
+        </div>
+        
+        <div class="buttons">
+            <button class="btn" id="addButton" onclick="addDevice()">Apparaat Toevoegen</button>
+            <button class="btn btn-secondary" onclick="goBack()">Terug</button>
+        </div>
+    </div>
+
+    <script>
+        let deviceAdding = false;
+
+        function addDevice() {
+            if (deviceAdding) return;
+            
+            deviceAdding = true;
+            var addButton = document.getElementById('addButton');
+            addButton.disabled = true;
+            addButton.textContent = 'Toevoegen...';
+            
+            if (window.Homey) {
+                Homey.emit('create_device', null, function(err, device) {
+                    if (err) {
+                        deviceAdding = false;
+                        addButton.disabled = false;
+                        addButton.textContent = 'Apparaat Toevoegen';
+                        if (window.Homey.alert) {
+                            window.Homey.alert(err.message || 'Kon apparaat niet toevoegen');
+                        }
+                        return;
+                    }
+
+                    if (window.Homey.createDevice) {
+                        window.Homey.createDevice(device, function(err) {
+                            if (err) {
+                                deviceAdding = false;
+                                addButton.disabled = false;
+                                addButton.textContent = 'Apparaat Toevoegen';
+                                if (window.Homey.alert) {
+                                    window.Homey.alert(err.message || 'Kon apparaat niet aanmaken');
+                                }
+                                return;
+                            }
+
+                            if (window.Homey.done) {
+                                window.Homey.done();
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function goBack() {
+            if (window.Homey && window.Homey.prevView) {
+                window.Homey.prevView();
+            }
+        }
+
+        // Initialize
+        if (window.Homey) {
+            Homey.ready(function() {
+                console.log('Add device page ready');
+            });
+        }
+    </script>
+</body>
+</html>

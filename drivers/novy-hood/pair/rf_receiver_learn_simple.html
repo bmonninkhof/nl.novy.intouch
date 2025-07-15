@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn RF Signal</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            text-align: center;
+            background: #f5f5f5;
+            margin: 0;
+        }
+        .container {
+            max-width: 350px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+            font-size: 14px;
+        }
+        .status.listening {
+            background: #e3f2fd;
+            color: #1976d2;
+            display: block;
+        }
+        .status.received {
+            background: #e8f5e8;
+            color: #388e3c;
+            display: block;
+        }
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 120px;
+        }
+        .button:disabled {
+            background: #ccc;
+        }
+        .button.success {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RF Signaal Leren</h1>
+        <div class="instruction">
+            Druk op een knop van uw Novy InTouch afstandsbediening en houd deze 3 seconden ingedrukt.
+        </div>
+        <div class="status" id="status"></div>
+        <button class="button" id="startButton" onclick="startLearning()">Start Leren</button>
+    </div>
+
+    <script>
+        let isLearning = false;
+        let learnedSignal = null;
+
+        function startLearning() {
+            if (isLearning) return;
+            
+            isLearning = true;
+            updateButton('Luisteren...', true);
+            showStatus('Luistert naar RF signaal... Druk nu op uw afstandsbediening!', 'listening');
+            
+            if (window.Homey) {
+                Homey.emit('start_rf_learning', {}, function(err, result) {
+                    if (err) {
+                        console.error('RF learning error:', err);
+                        showStatus('Fout bij RF leren: ' + err.message, 'error');
+                        resetLearning();
+                        return;
+                    }
+                    console.log('RF learning started successfully');
+                });
+            }
+
+            setTimeout(function() {
+                if (isLearning && !learnedSignal) {
+                    showStatus('Geen signaal ontvangen. Probeer het opnieuw.', 'error');
+                    resetLearning();
+                }
+            }, 30000);
+        }
+
+        function resetLearning() {
+            isLearning = false;
+            learnedSignal = null;
+            updateButton('Start Leren', false);
+        }
+
+        function updateButton(text, disabled, success) {
+            var button = document.getElementById('startButton');
+            button.textContent = text;
+            button.disabled = disabled;
+            if (success) {
+                button.className = 'button success';
+            } else {
+                button.className = 'button';
+            }
+        }
+
+        function showStatus(message, type) {
+            var status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        function onSignalLearned(signal) {
+            console.log('RF signal learned:', signal);
+            learnedSignal = signal;
+            isLearning = false;
+            
+            showStatus('RF signaal succesvol geleerd!', 'received');
+            updateButton('Doorgaan', false, true);
+            
+            document.getElementById('startButton').onclick = function() {
+                if (window.Homey && window.Homey.nextView) {
+                    window.Homey.nextView();
+                }
+            };
+        }
+
+        // Initialize
+        if (window.Homey) {
+            Homey.on('rf_signal_learned', onSignalLearned);
+            
+            Homey.ready(function() {
+                console.log('RF learning page ready');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,10 +1,7 @@
 'use strict';
 
-const RFDriver = require('homey-rfdriver');
+const DriverNovyInTouch = require('../../lib/DriverNovyInTouch');
 
-module.exports = class NovyIntouchHoodDriver extends RFDriver.Driver {
+module.exports = class extends DriverNovyInTouch {
 
-    onRFInit(){
-        super.onRFInit();
-    }
 };

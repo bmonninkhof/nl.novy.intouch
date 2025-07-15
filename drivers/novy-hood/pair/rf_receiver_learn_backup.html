@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Learn RF Signal</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            text-align: center;
+            background: #f5f5f5;
+            margin: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        .status.listening {
+            background: #e3f2fd;
+            color: #1976d2;
+            display: block;
+        }
+        .status.received {
+            background: #e8f5e8;
+            color: #388e3c;
+            display: block;
+        }
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            display: block;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            min-width: 120px;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .button.success {
+            background: #28a745;
+        }
+        .button.success:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">📡</div>
+        <h1 id="title">Learn RF Signal</h1>
+        <div class="instruction" id="instruction">
+            Press and hold any button on your Novy InTouch remote control for 3 seconds.
+        </div>
+        <div class="status" id="status"></div>
+        <button class="button" id="startButton" onclick="startLearning()">Start Learning</button>
+    </div>
+
+    <script>
+        let isLearning = false;
+        let learnedSignal = null;
+
+        function startLearning() {
+            if (isLearning) return;
+            
+            isLearning = true;
+            updateButton('Listening...', true);
+            showStatus('🔍 Listening for RF signal... Press your remote now!', 'listening');
+            
+            // Start RF learning
+            Homey.emit('start_rf_learning', {}, (err, result) => {
+                if (err) {
+                    console.error('RF learning error:', err);
+                    showStatus('❌ Failed to start RF learning: ' + err.message, 'error');
+                    resetLearning();
+                    return;
+                }
+                
+                console.log('RF learning started successfully');
+            });
+
+            // Set timeout for learning
+            setTimeout(() => {
+                if (isLearning && !learnedSignal) {
+                    showStatus('⏰ No signal received. Please try again.', 'error');
+                    resetLearning();
+                }
+            }, 30000); // 30 second timeout
+        }
+
+        function resetLearning() {
+            isLearning = false;
+            learnedSignal = null;
+            updateButton('Start Learning', false);
+        }
+
+        function updateButton(text, disabled, success = false) {
+            const button = document.getElementById('startButton');
+            button.textContent = text;
+            button.disabled = disabled;
+            button.className = success ? 'button success' : 'button';
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        function onSignalLearned(signal) {
+            console.log('RF signal learned:', signal);
+            learnedSignal = signal;
+            isLearning = false;
+            
+            showStatus('✅ RF signal learned successfully!', 'received');
+            updateButton('Continue', false, true);
+            
+            document.getElementById('startButton').onclick = () => {
+                Homey.nextView();
+            };
+        }
+
+        // Listen for events from driver
+        Homey.on('rf_signal_learned', onSignalLearned);
+
+        // Initialize page
+        Homey.ready(() => {
+            console.log('RF learning page ready');
+            
+            Homey.getOptions((err, options) => {
+                if (err) return console.error('Failed to get options:', err);
+                
+                if (options && options.title) {
+                    document.getElementById('title').textContent = options.title;
+                }
+                if (options && options.instruction) {
+                    document.getElementById('instruction').textContent = options.instruction;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
