@@ -60,7 +60,7 @@ Na het koppelen kun je je afzuigkap besturen via:
 ### v3.0.0 [2025-07-13]
 - **Grote update**: Volledige migratie naar Homey SDK v3
 - Bijgewerkt naar moderne JavaScript async/await patronen
-- homey-rfdriver geüpgraded naar v3.0.0
+- homey-rfdriver geüpgraded naar v3.3.2
 - Verbeterde app manifest structuur en validatie
 - Verbeterde flow kaarten met juiste titleFormatted ondersteuning
 - Gemoderniseerde apparaat capability afhandeling

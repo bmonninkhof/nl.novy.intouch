@@ -60,7 +60,7 @@ After pairing, you can control your hood using:
 ### v3.0.0 [2025-07-13]
 - **Major update**: Complete migration to Homey SDK v3
 - Updated to modern JavaScript async/await patterns
-- Upgraded homey-rfdriver to v3.0.0
+- Upgraded homey-rfdriver to v3.3.2
 - Improved app manifest structure and validation
 - Enhanced flow cards with proper titleFormatted support
 - Modernized device capability handling

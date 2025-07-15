@@ -7,17 +7,17 @@
     "lib": "lib"
   },
   "dependencies": {
-    "homey-rfdriver": "^3.0.4"
+    "homey-rfdriver": "^3.3.2"
   },
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheLostHomeyAppRepositories/nl.novy.intouch.git"
+    "url": "git+https://github.com/bmonninkhof/nl.novy.intouch.git"
   },
   "author": "Novy InTouch Community",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheLostHomeyAppRepositories/nl.novy.intouch/issues"
+    "url": "https://github.com/bmonninkhof/nl.novy.intouch/issues"
   },
-  "homepage": "https://github.com/TheLostHomeyAppRepositories/nl.novy.intouch#readme"
+  "homepage": "https://github.com/bmonninkhof/nl.novy.intouch#readme"
 }
