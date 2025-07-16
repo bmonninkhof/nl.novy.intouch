@@ -49,6 +49,30 @@
     ]
   },
   {
+    "type": "group",
+    "label": {
+      "en": "Diagnostics",
+      "nl": "Diagnostiek", 
+      "de": "Diagnose"
+    },
+    "children": [
+      {
+        "id": "createDiagnosticReport",
+        "type": "button",
+        "label": {
+          "en": "Create Diagnostic Report",
+          "nl": "Maak Diagnostisch Rapport",
+          "de": "Diagnostischen Bericht erstellen"
+        },
+        "hint": {
+          "en": "Use this when the app developer has asked you to create a diagnostic report",
+          "nl": "Gebruik dit als de app-ontwikkelaar je heeft gevraagd om een diagnostisch rapport op te sturen",
+          "de": "Verwenden Sie dies, wenn der App-Entwickler Sie gebeten hat, einen Diagnosebericht zu erstellen"
+        }
+      }
+    ]
+  },
+  {
     "type": "group", 
     "label": {
       "en": "Manual Reporting",

@@ -209,6 +209,43 @@ export default class NovyIntouchApp extends Homey.App {
         }
       });
 
+      // Handle diagnostic report button  
+      this.homey.settings.on('set', async (key) => {
+        if (key === 'createDiagnosticReport') {
+          try {
+            this.log('Diagnostic report requested from settings');
+            
+            if (this.crashReporter) {
+              // Collect comprehensive diagnostic information
+              const diagnosticInfo = await this.collectDiagnosticInfo();
+              
+              await this.crashReporter.reportError(new Error('Diagnostic report requested by user'), {
+                context: 'diagnosticReport',
+                diagnosticInfo: diagnosticInfo,
+                triggeredBy: 'settings_diagnostic_button',
+                timestamp: new Date().toISOString()
+              });
+            }
+            
+            // Send notification
+            await this.homey.notifications.createNotification({
+              excerpt: "Diagnostic report has been sent to the developer"
+            });
+            
+          } catch (error) {
+            this.error('Failed to create diagnostic report:', error);
+            
+            // Still try to send error report
+            if (this.crashReporter) {
+              await this.crashReporter.reportError(error, {
+                context: 'diagnosticReportFailure',
+                triggeredBy: 'settings_diagnostic_button'
+              });
+            }
+          }
+        }
+      });
+
       // Initialize status label
       const enabled = this.homey.settings.get('crashReportingEnabled');
       const statusText = enabled 
@@ -224,5 +261,84 @@ export default class NovyIntouchApp extends Homey.App {
 
   async onUninit() {
     this.log("Novy InTouch app is shutting down...");
+  }
+
+  async collectDiagnosticInfo() {
+    try {
+      const info = {
+        timestamp: new Date().toISOString(),
+        appVersion: this.homey.manifest.version,
+        homeyVersion: this.homey.version,
+        platform: this.homey.platform || 'unknown',
+        settings: {},
+        devices: [],
+        flows: [],
+        systemInfo: {}
+      };
+
+      // Collect app settings (safely)
+      try {
+        info.settings = {
+          crashReportingEnabled: this.homey.settings.get('crashReportingEnabled'),
+          // Don't include sensitive data like messages
+        };
+      } catch (error) {
+        info.settings = { error: error.message };
+      }
+
+      // Collect device information
+      try {
+        const devices = this.homey.drivers.getDrivers();
+        for (const [driverId, driver] of devices) {
+          const driverDevices = driver.getDevices();
+          info.devices.push({
+            driverId: driverId,
+            deviceCount: driverDevices.length,
+            devices: driverDevices.map(device => ({
+              id: device.getData().id || 'unknown',
+              name: device.getName(),
+              class: device.getClass(),
+              available: device.getAvailable(),
+              capabilities: device.getCapabilities()
+            }))
+          });
+        }
+      } catch (error) {
+        info.devices = [{ error: error.message }];
+      }
+
+      // Collect flow information (count only for privacy)
+      try {
+        const flows = await this.homey.flow.getFlows();
+        info.flows = {
+          totalFlows: flows.length,
+          enabledFlows: flows.filter(flow => flow.enabled).length,
+          // Don't include actual flow content for privacy
+        };
+      } catch (error) {
+        info.flows = { error: error.message };
+      }
+
+      // Collect basic system info
+      try {
+        info.systemInfo = {
+          memoryUsage: process.memoryUsage(),
+          uptime: process.uptime(),
+          nodeVersion: process.version,
+          timezone: this.homey.clock.getTimezone(),
+          // Don't include sensitive system info
+        };
+      } catch (error) {
+        info.systemInfo = { error: error.message };
+      }
+
+      return info;
+    } catch (error) {
+      this.error('Failed to collect diagnostic info:', error);
+      return {
+        error: error.message,
+        timestamp: new Date().toISOString()
+      };
+    }
   }
 }
