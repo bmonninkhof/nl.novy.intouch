@@ -5,9 +5,7 @@
     "de": "Novy Intouch Dunstabzugshaube"
   },
   "class": "other",
-  "capabilities": [
-    "onoff"
-  ],
+  "capabilities": ["onoff"],
   "images": {
     "large": "/drivers/novy-hood/assets/images/large.jpg",
     "small": "/drivers/novy-hood/assets/images/small.jpg"
@@ -32,10 +30,6 @@
       "id": "rf_receiver_add"
     }
   ],
-  "connectivity": [
-    "rf433"
-  ],
-  "platforms": [
-    "local"
-  ]
+  "connectivity": ["rf433"],
+  "platforms": ["local"]
 }

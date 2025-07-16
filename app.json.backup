@@ -1,0 +1,210 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "nl.novy.intouch",
+  "sdk": 3,
+  "version": "3.0.1",
+  "brandColor": "#000000",
+  "compatibility": ">=12.0.1",
+  "name": {
+    "en": "a Novy Intouch",
+    "nl": "Novy Intouch",
+    "de": "Novy Intouch"
+  },
+  "description": {
+    "en": "Control your Novy hood with InTouch remote",
+    "nl": "Bestuur je Novy afzuigkap met InTouch afstandsbediening",
+    "de": "Steuern Sie Ihre Novy Dunstabzugshaube mit der InTouch Fernbedienung"
+  },
+  "category": [
+    "appliances"
+  ],
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "author": {
+    "name": "Novy InTouch Community",
+    "email": "support@example.com"
+  },
+  "permissions": [
+    "homey:wireless:433"
+  ],
+  "esm": true,
+  "flow": {
+    "triggers": [
+      {
+        "triggers": [
+          {
+            "id": "novy_rf_received",
+            "title": {
+              "en": "RF signal received",
+              "nl": "RF signaal ontvangen",
+              "de": "RF-Signal empfangen"
+            },
+            "hint": {
+              "en": "Triggers when the hood receives an RF signal from the remote.",
+              "nl": "Triggert wanneer de afzuigkap een RF signaal ontvangt van de afstandsbediening.",
+              "de": "Wird ausgelöst, wenn die Dunstabzugshaube ein RF-Signal von der Fernbedienung empfängt."
+            },
+            "args": [
+              {
+                "type": "device",
+                "name": "device",
+                "filter": "driver_id=novy-hood"
+              }
+            ],
+            "tokens": [
+              {
+                "name": "command",
+                "type": "string",
+                "title": {
+                  "en": "Command",
+                  "nl": "Commando",
+                  "de": "Befehl"
+                },
+                "example": {
+                  "en": "on",
+                  "nl": "aan",
+                  "de": "ein"
+                }
+              }
+            ]
+          }
+        ],
+        "conditions": [
+          {
+            "id": "is_fan_speed",
+            "title": {
+              "en": "Fan speed is",
+              "nl": "Ventilatorsnelheid is",
+              "de": "Lüftergeschwindigkeit ist"
+            },
+            "args": [
+              {
+                "type": "device",
+                "name": "device",
+                "filter": "driver_id=novy-hood"
+              },
+              {
+                "type": "number",
+                "name": "speed",
+                "title": {
+                  "en": "Speed",
+                  "nl": "Snelheid",
+                  "de": "Geschwindigkeit"
+                },
+                "min": 0,
+                "max": 4
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "id": "set_fan_speed",
+            "title": {
+              "en": "Set fan speed",
+              "nl": "Stel ventilatorsnelheid in",
+              "de": "Lüftergeschwindigkeit einstellen"
+            },
+            "args": [
+              {
+                "type": "device",
+                "name": "device",
+                "filter": "driver_id=novy-hood"
+              },
+              {
+                "type": "number",
+                "name": "speed",
+                "title": {
+                  "en": "Speed",
+                  "nl": "Snelheid",
+                  "de": "Geschwindigkeit"
+                },
+                "min": 0,
+                "max": 4
+              }
+            ]
+          }
+        ],
+        "id": "novy_rf_received"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Novy Intouch hood",
+        "nl": "Novy Intouch afzuiging",
+        "de": "Novy Intouch Dunstabzugshaube"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "images": {
+        "large": "/drivers/novy-hood/assets/images/large.jpg",
+        "small": "/drivers/novy-hood/assets/images/small.jpg"
+      },
+      "rf433": {
+        "satelliteMode": false
+      },
+      "pair": [
+        {
+          "id": "rf_receiver_learn",
+          "navigation": {
+            "next": "rf_receiver_test"
+          }
+        },
+        {
+          "id": "rf_receiver_test",
+          "navigation": {
+            "next": "rf_receiver_add"
+          }
+        },
+        {
+          "id": "rf_receiver_add"
+        }
+      ],
+      "connectivity": [
+        "rf433"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "id": "novy-hood"
+    }
+  ],
+  "signals": {
+    "433": {
+      "novy_intouch": {
+        "sof": [
+          275,
+          2640
+        ],
+        "eof": [
+          275
+        ],
+        "words": [
+          [
+            250,
+            275,
+            250,
+            1250
+          ],
+          [
+            250,
+            1250,
+            250,
+            275
+          ]
+        ],
+        "interval": 10000,
+        "sensitivity": 0.5,
+        "repetitions": 20,
+        "minimalLength": 20,
+        "maximalLength": 24
+      }
+    }
+  }
+}

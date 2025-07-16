@@ -1,0 +1,34 @@
+[
+  {
+    "id": "set_fan_speed",
+    "title": "Set fan speed",
+    "args": [
+      {
+        "type": "device",
+        "name": "device",
+        "filter": "driver_id=novy-hood"
+      },
+      {
+        "type": "number",
+        "name": "speed",
+        "title": "Speed",
+        "min": 0,
+        "max": 4
+      }
+    ]
+  },
+  {
+    "id": "send_crash_report",
+    "title": "Send crash report manually",
+    "titleFormatted": "Send crash report with message [[message]]",
+    "hint": "Manually send a crash report to the developer",
+    "args": [
+      {
+        "type": "text",
+        "name": "message",
+        "title": "Problem description",
+        "placeholder": "Describe the issue you're experiencing..."
+      }
+    ]
+  }
+]

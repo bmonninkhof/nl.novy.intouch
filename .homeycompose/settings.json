@@ -1,0 +1,90 @@
+[
+  {
+    "type": "group",
+    "label": {
+      "en": "Crash Reporting",
+      "nl": "Crash Rapportage",
+      "de": "Crash-Berichte"
+    },
+    "children": [
+      {
+        "id": "crashReportingEnabled",
+        "type": "checkbox",
+        "label": {
+          "en": "Enable automatic crash reporting",
+          "nl": "Automatische crash rapportage inschakelen", 
+          "de": "Automatische Crash-Berichte aktivieren"
+        },
+        "hint": {
+          "en": "When enabled, crash reports are automatically sent to bmonninkhof@gmail.com to help improve the app",
+          "nl": "Wanneer ingeschakeld worden crash rapporten automatisch naar bmonninkhof@gmail.com gestuurd om de app te verbeteren",
+          "de": "Wenn aktiviert, werden Crash-Berichte automatisch an bmonninkhof@gmail.com gesendet, um die App zu verbessern"
+        },
+        "value": true
+      },
+      {
+        "id": "crashReportingStatus",
+        "type": "label",
+        "label": {
+          "en": "Status: Reports will be sent to bmonninkhof@gmail.com",
+          "nl": "Status: Rapporten worden verstuurd naar bmonninkhof@gmail.com",
+          "de": "Status: Berichte werden an bmonninkhof@gmail.com gesendet"
+        },
+        "value": ""
+      },
+      {
+        "id": "testCrashReport",
+        "type": "button",
+        "label": {
+          "en": "Test crash reporting",
+          "nl": "Test crash rapportage",
+          "de": "Crash-Berichte testen"
+        },
+        "hint": {
+          "en": "Send a test crash report to verify the system is working",
+          "nl": "Verstuur een test crash rapport om te controleren of het systeem werkt",
+          "de": "Senden Sie einen Test-Crash-Bericht, um zu überprüfen, ob das System funktioniert"
+        }
+      }
+    ]
+  },
+  {
+    "type": "group", 
+    "label": {
+      "en": "Manual Reporting",
+      "nl": "Handmatige Rapportage",
+      "de": "Manuelle Berichte"
+    },
+    "children": [
+      {
+        "id": "manualReportMessage",
+        "type": "textarea",
+        "label": {
+          "en": "Problem description",
+          "nl": "Probleem beschrijving",
+          "de": "Problembeschreibung"
+        },
+        "hint": {
+          "en": "Describe any issues you're experiencing with the app",
+          "nl": "Beschrijf eventuele problemen die je ondervindt met de app",
+          "de": "Beschreiben Sie alle Probleme, die Sie mit der App haben"
+        },
+        "value": ""
+      },
+      {
+        "id": "sendManualReport",
+        "type": "button",
+        "label": {
+          "en": "Send report to developer",
+          "nl": "Rapport naar ontwikkelaar sturen",
+          "de": "Bericht an Entwickler senden"
+        },
+        "hint": {
+          "en": "Click to send the problem description to bmonninkhof@gmail.com",
+          "nl": "Klik om de probleem beschrijving naar bmonninkhof@gmail.com te sturen",
+          "de": "Klicken Sie, um die Problembeschreibung an bmonninkhof@gmail.com zu senden"
+        }
+      }
+    ]
+  }
+]

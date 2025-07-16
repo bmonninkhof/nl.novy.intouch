@@ -1,193 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Device</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 100%;
-        }
-        .icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-        .instruction {
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.5;
-            font-size: 1rem;
-        }
-        .buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: background 0.3s ease;
-            min-width: 120px;
-        }
-        .btn:hover {
-            background: #218838;
-        }
-        .btn-secondary {
-            background: #6c757d;
-        }
-        .btn-secondary:hover {
-            background: #545b62;
-        }
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+      }
+      .icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+      }
+      .instruction {
+        color: #666;
+        margin-bottom: 30px;
+        line-height: 1.5;
+        font-size: 1rem;
+      }
+      .buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background 0.3s ease;
+        min-width: 120px;
+      }
+      .btn:hover {
+        background: #218838;
+      }
+      .btn-secondary {
+        background: #6c757d;
+      }
+      .btn-secondary:hover {
+        background: #545b62;
+      }
+      .btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="icon">✅</div>
-        <h1 data-i18n="pair.add_device.title">Add Novy InTouch Hood</h1>
-        <div class="instruction" data-i18n="pair.add_device.instruction">
-            The RF signal has been learned successfully. Click "Add Device" to complete the setup.
-        </div>
-        
-        <div class="buttons">
-            <button class="btn" id="addButton" onclick="addDevice()" data-i18n="pair.add_device.add_button">Add Device</button>
-            <button class="btn btn-secondary" onclick="goBack()" data-i18n="pair.add_device.back_button">Back</button>
-        </div>
+      <div class="icon">✅</div>
+      <h1 data-i18n="pair.add_device.title">Add Novy InTouch Hood</h1>
+      <div class="instruction" data-i18n="pair.add_device.instruction">
+        The RF signal has been learned successfully. Click "Add Device" to
+        complete the setup.
+      </div>
+
+      <div class="buttons">
+        <button
+          class="btn"
+          id="addButton"
+          onclick="addDevice()"
+          data-i18n="pair.add_device.add_button"
+        >
+          Add Device
+        </button>
+        <button
+          class="btn btn-secondary"
+          onclick="goBack()"
+          data-i18n="pair.add_device.back_button"
+        >
+          Back
+        </button>
+      </div>
     </div>
 
     <script>
-        let deviceAdding = false;
-        
-        // Localization object
-        const translations = {
-            en: {
-                'pair.add_device.title': 'Add Novy InTouch Hood',
-                'pair.add_device.instruction': 'The RF signal has been learned successfully. Click "Add Device" to complete the setup.',
-                'pair.add_device.add_button': 'Add Device',
-                'pair.add_device.back_button': 'Back',
-                'pair.add_device.adding': 'Adding...',
-                'pair.add_device.error': 'Failed to add device',
-                'pair.add_device.create_error': 'Failed to create device'
-            },
-            nl: {
-                'pair.add_device.title': 'Novy InTouch Afzuigkap Toevoegen',
-                'pair.add_device.instruction': 'Het RF-signaal is succesvol geleerd. Klik op "Apparaat Toevoegen" om de installatie te voltooien.',
-                'pair.add_device.add_button': 'Apparaat Toevoegen',
-                'pair.add_device.back_button': 'Terug',
-                'pair.add_device.adding': 'Toevoegen...',
-                'pair.add_device.error': 'Kon apparaat niet toevoegen',
-                'pair.add_device.create_error': 'Kon apparaat niet aanmaken'
-            },
-            de: {
-                'pair.add_device.title': 'Novy InTouch Dunstabzugshaube Hinzufügen',
-                'pair.add_device.instruction': 'Das RF-Signal wurde erfolgreich gelernt. Klicken Sie auf "Gerät Hinzufügen", um die Einrichtung abzuschließen.',
-                'pair.add_device.add_button': 'Gerät Hinzufügen',
-                'pair.add_device.back_button': 'Zurück',
-                'pair.add_device.adding': 'Hinzufügen...',
-                'pair.add_device.error': 'Gerät konnte nicht hinzugefügt werden',
-                'pair.add_device.create_error': 'Gerät konnte nicht erstellt werden'
-            }
-        };
+      let deviceAdding = false;
 
-        let currentLanguage = 'en';
+      // Localization object
+      const translations = {
+        en: {
+          "pair.add_device.title": "Add Novy InTouch Hood",
+          "pair.add_device.instruction":
+            'The RF signal has been learned successfully. Click "Add Device" to complete the setup.',
+          "pair.add_device.add_button": "Add Device",
+          "pair.add_device.back_button": "Back",
+          "pair.add_device.adding": "Adding...",
+          "pair.add_device.error": "Failed to add device",
+          "pair.add_device.create_error": "Failed to create device",
+        },
+        nl: {
+          "pair.add_device.title": "Novy InTouch Afzuigkap Toevoegen",
+          "pair.add_device.instruction":
+            'Het RF-signaal is succesvol geleerd. Klik op "Apparaat Toevoegen" om de installatie te voltooien.',
+          "pair.add_device.add_button": "Apparaat Toevoegen",
+          "pair.add_device.back_button": "Terug",
+          "pair.add_device.adding": "Toevoegen...",
+          "pair.add_device.error": "Kon apparaat niet toevoegen",
+          "pair.add_device.create_error": "Kon apparaat niet aanmaken",
+        },
+        de: {
+          "pair.add_device.title": "Novy InTouch Dunstabzugshaube Hinzufügen",
+          "pair.add_device.instruction":
+            'Das RF-Signal wurde erfolgreich gelernt. Klicken Sie auf "Gerät Hinzufügen", um die Einrichtung abzuschließen.',
+          "pair.add_device.add_button": "Gerät Hinzufügen",
+          "pair.add_device.back_button": "Zurück",
+          "pair.add_device.adding": "Hinzufügen...",
+          "pair.add_device.error": "Gerät konnte nicht hinzugefügt werden",
+          "pair.add_device.create_error": "Gerät konnte nicht erstellt werden",
+        },
+      };
 
-        function translatePage() {
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-        }
+      let currentLanguage = "en";
 
-        function addDevice() {
-            if (deviceAdding) return;
-            
-            deviceAdding = true;
-            const addButton = document.getElementById('addButton');
-            addButton.disabled = true;
-            addButton.textContent = translations[currentLanguage]['pair.add_device.adding'];
-            
-            // Create the device
-            Homey.emit('create_device', null, (err, device) => {
-                if (err) {
-                    deviceAdding = false;
-                    addButton.disabled = false;
-                    addButton.textContent = translations[currentLanguage]['pair.add_device.add_button'];
-                    return Homey.alert(err.message || translations[currentLanguage]['pair.add_device.error']);
-                }
-
-                return Homey.createDevice(device, err => {
-                    if (err) {
-                        deviceAdding = false;
-                        addButton.disabled = false;
-                        addButton.textContent = translations[currentLanguage]['pair.add_device.add_button'];
-                        return Homey.alert(err.message || translations[currentLanguage]['pair.add_device.create_error']);
-                    }
-
-                    return Homey.done();
-                });
-            });
-        }
-
-        function goBack() {
-            Homey.prevView();
-        }
-
-        // Initialize page
-        Homey.ready(() => {
-            console.log('Add device page ready');
-            
-            // Get language from Homey
-            Homey.getLanguage((err, language) => {
-                if (!err && language) {
-                    if (translations[language]) {
-                        currentLanguage = language;
-                    }
-                }
-                translatePage();
-            });
-            
-            Homey.getOptions((err, options) => {
-                if (err) return console.error('Failed to get options:', err);
-                
-                if (options && options.instruction) {
-                    document.querySelector('.instruction').textContent = options.instruction;
-                }
-            });
+      function translatePage() {
+        const elements = document.querySelectorAll("[data-i18n]");
+        elements.forEach((element) => {
+          const key = element.getAttribute("data-i18n");
+          if (
+            translations[currentLanguage] &&
+            translations[currentLanguage][key]
+          ) {
+            element.textContent = translations[currentLanguage][key];
+          }
         });
+      }
+
+      function addDevice() {
+        if (deviceAdding) return;
+
+        deviceAdding = true;
+        const addButton = document.getElementById("addButton");
+        addButton.disabled = true;
+        addButton.textContent =
+          translations[currentLanguage]["pair.add_device.adding"];
+
+        // Create the device
+        Homey.emit("create_device", null, (err, device) => {
+          if (err) {
+            deviceAdding = false;
+            addButton.disabled = false;
+            addButton.textContent =
+              translations[currentLanguage]["pair.add_device.add_button"];
+            return Homey.alert(
+              err.message ||
+                translations[currentLanguage]["pair.add_device.error"],
+            );
+          }
+
+          return Homey.createDevice(device, (err) => {
+            if (err) {
+              deviceAdding = false;
+              addButton.disabled = false;
+              addButton.textContent =
+                translations[currentLanguage]["pair.add_device.add_button"];
+              return Homey.alert(
+                err.message ||
+                  translations[currentLanguage]["pair.add_device.create_error"],
+              );
+            }
+
+            return Homey.done();
+          });
+        });
+      }
+
+      function goBack() {
+        Homey.prevView();
+      }
+
+      // Initialize page
+      Homey.ready(() => {
+        console.log("Add device page ready");
+
+        // Get language from Homey
+        Homey.getLanguage((err, language) => {
+          if (!err && language) {
+            if (translations[language]) {
+              currentLanguage = language;
+            }
+          }
+          translatePage();
+        });
+
+        Homey.getOptions((err, options) => {
+          if (err) return console.error("Failed to get options:", err);
+
+          if (options && options.instruction) {
+            document.querySelector(".instruction").textContent =
+              options.instruction;
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

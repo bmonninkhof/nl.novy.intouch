@@ -1,0 +1,11 @@
+{
+  "crashReporter": {
+    "enabled": true,
+    "email": "bmonninkhof@gmail.com",
+    "webhookUrl": "https://webhook.site/#!/view/69a2c1e8-4b2b-4b8e-9f7a-8e3d2c1a0b9c",
+    "enableNotifications": true,
+    "enableHTTP": true,
+    "reportWarnings": false,
+    "reportLevel": "error"
+  }
+}

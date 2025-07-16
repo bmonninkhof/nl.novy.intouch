@@ -1,15 +1,7 @@
 {
   "id": "novy_rf_received",
-  "title": {
-    "en": "RF signal received",
-    "nl": "RF signaal ontvangen",
-    "de": "RF-Signal empfangen"
-  },
-  "hint": {
-    "en": "Triggers when the hood receives an RF signal from the remote.",
-    "nl": "Triggert wanneer de afzuigkap een RF signaal ontvangt van de afstandsbediening.",
-    "de": "Wird ausgelöst, wenn die Dunstabzugshaube ein RF-Signal von der Fernbedienung empfängt."
-  },
+  "title": "RF signal received",
+  "hint": "Triggers when the hood receives an RF signal from the remote.",
   "args": [
     {
       "type": "device",
@@ -21,16 +13,8 @@
     {
       "name": "command",
       "type": "string",
-      "title": {
-        "en": "Command",
-        "nl": "Commando",
-        "de": "Befehl"
-      },
-      "example": {
-        "en": "on",
-        "nl": "aan",
-        "de": "ein"
-      }
+      "title": "Command",
+      "example": "on"
     }
   ]
 }

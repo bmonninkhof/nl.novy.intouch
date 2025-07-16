@@ -1,7 +1,3 @@
-'use strict';
+import DriverNovyInTouch from "../../lib/DriverNovyInTouch.js";
 
-const DriverNovyInTouch = require('../../lib/DriverNovyInTouch');
-
-module.exports = class extends DriverNovyInTouch {
-
-};
+export default class extends DriverNovyInTouch {}

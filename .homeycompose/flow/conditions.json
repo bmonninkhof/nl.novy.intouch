@@ -1,0 +1,20 @@
+[
+  {
+    "id": "is_fan_speed",
+    "title": "Fan speed is",
+    "args": [
+      {
+        "type": "device",
+        "name": "device",
+        "filter": "driver_id=novy-hood"
+      },
+      {
+        "type": "number",
+        "name": "speed",
+        "title": "Speed",
+        "min": 0,
+        "max": 4
+      }
+    ]
+  }
+]

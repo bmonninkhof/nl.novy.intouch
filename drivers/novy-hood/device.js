@@ -1,7 +1,3 @@
-'use strict';
+import DeviceNovyInTouch from "../../lib/NovyIntouchDevice.js";
 
-const DeviceNovyInTouch = require('../../lib/DeviceNovyInTouch');
-
-module.exports = class extends DeviceNovyInTouch {
-
-};
+export default class extends DeviceNovyInTouch {}
